@@ -1,0 +1,1097 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Karli — Trade Journal</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&family=Fraunces:ital,wght@0,300;0,600;0,900;1,300;1,600&display=swap');
+
+:root {
+  --bg: #0e0e12;
+  --paper: #16161c;
+  --ink: #e8e4f0;
+  --muted: #7a748a;
+  --border: #2a2830;
+  --accent: #BB96E7;
+  --accent-light: rgba(187,150,231,0.10);
+  --green: #BB96E7;
+  --green-light: rgba(187,150,231,0.10);
+  --red: #CAC2D1;
+  --red-light: rgba(202,194,209,0.10);
+  --gold: #BB96E7;
+  --shadow: 0 2px 16px rgba(0,0,0,0.4);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'DM Mono', monospace;
+  min-height: 100vh;
+  padding: 0;
+}
+
+/* Grain texture */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.4;
+}
+
+.app { position: relative; z-index: 1; }
+
+/* Header */
+header {
+  background: #0a0a0e;
+  color: var(--ink);
+  padding: 28px 32px 24px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+header h1 {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(1.6rem, 5vw, 2.4rem);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+header h1 em {
+  font-style: italic;
+  font-weight: 300;
+  color: rgba(232,228,240,0.35);
+}
+
+header p {
+  font-size: 0.65rem;
+  color: rgba(232,228,240,0.3);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-top: 6px;
+}
+
+.header-stats {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.hstat {
+  text-align: right;
+}
+
+.hstat-val {
+  font-family: 'Fraunces', serif;
+  font-size: 1.4rem;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.hstat-val.pos { color: #BB96E7; }
+.hstat-val.neg { color: #CAC2D1; }
+
+.hstat-label {
+  font-size: 0.6rem;
+  color: rgba(232,228,240,0.3);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-top: 3px;
+}
+
+/* Nav tabs */
+.nav {
+  background: #0a0a0e;
+  border-top: 1px solid rgba(255,255,255,0.04);
+  display: flex;
+  padding: 0 32px;
+  gap: 0;
+}
+
+.nav-btn {
+  padding: 12px 20px;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: rgba(232,228,240,0.3);
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.nav-btn:hover { color: rgba(232,228,240,0.7); }
+.nav-btn.active { color: var(--ink); border-bottom-color: var(--accent); }
+
+/* Main */
+main { padding: 28px 32px; max-width: 900px; margin: 0 auto; }
+
+@media (max-width: 600px) {
+  main { padding: 20px 16px; }
+  header { padding: 20px 16px 18px; }
+  .nav { padding: 0 16px; }
+}
+
+/* Views */
+.view { display: none; }
+.view.active { display: block; }
+
+/* New Trade Form */
+.form-card {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.form-header {
+  padding: 20px 24px 16px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.form-header h2 {
+  font-family: 'Fraunces', serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.form-body { padding: 24px; }
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+@media (max-width: 580px) { .form-grid { grid-template-columns: 1fr; } }
+
+.form-grid-3 {
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+@media (max-width: 580px) { .form-grid-3 { grid-template-columns: 1fr; } }
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.field label {
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.field input,
+.field select,
+.field textarea {
+  background: #0e0e12;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 9px 12px;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.78rem;
+  color: var(--ink);
+  outline: none;
+  transition: border-color 0.2s;
+  width: 100%;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  border-color: var(--accent);
+}
+
+.field textarea {
+  resize: vertical;
+  min-height: 80px;
+  line-height: 1.6;
+}
+
+/* Toggle buttons for direction/outcome */
+.toggle-group {
+  display: flex;
+  gap: 8px;
+}
+
+.toggle-btn {
+  flex: 1;
+  padding: 9px 8px;
+  border-radius: 3px;
+  border: 1px solid var(--border);
+  background: #0e0e12;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.72rem;
+  cursor: pointer;
+  transition: all 0.15s;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+
+.toggle-btn.call.selected { background: var(--green-light); border-color: var(--green); color: var(--green); font-weight: 500; }
+.toggle-btn.put.selected { background: var(--red-light); border-color: var(--red); color: var(--red); font-weight: 500; }
+.toggle-btn.win.selected { background: var(--green-light); border-color: var(--green); color: var(--green); font-weight: 500; }
+.toggle-btn.loss.selected { background: var(--red-light); border-color: var(--red); color: var(--red); font-weight: 500; }
+.toggle-btn.be.selected { background: rgba(184,134,11,0.1); border-color: var(--gold); color: var(--gold); font-weight: 500; }
+
+/* Checklist */
+.checklist {
+  background: #0e0e12;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 14px 16px;
+  margin-bottom: 16px;
+}
+
+.checklist-title {
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 12px;
+}
+
+.check-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+}
+
+.check-item:last-child { border-bottom: none; }
+
+.check-item input[type="checkbox"] {
+  width: 14px;
+  height: 14px;
+  accent-color: var(--accent);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.check-item span {
+  font-size: 0.7rem;
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+.check-item.checked span {
+  color: var(--ink);
+  text-decoration: line-through;
+  text-decoration-color: var(--accent);
+}
+
+/* Emotion rating */
+.emotion-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.emotion-btn {
+  padding: 6px 12px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  background: #0e0e12;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem;
+  cursor: pointer;
+  transition: all 0.15s;
+  color: var(--muted);
+}
+
+.emotion-btn.selected {
+  background: var(--accent-light);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* Submit button */
+.btn-primary {
+  width: 100%;
+  padding: 13px;
+  background: #BB96E7;
+  color: #0e0e12;
+  border: none;
+  border-radius: 3px;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-top: 16px;
+}
+
+.btn-primary:hover { background: #c9a8f0; }
+
+/* Divider label */
+.section-label {
+  font-size: 0.58rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 20px 0 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.section-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+/* Trade Log */
+.trade-log { display: flex; flex-direction: column; gap: 12px; }
+
+.trade-card {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  cursor: pointer;
+  transition: box-shadow 0.2s;
+}
+
+.trade-card:hover { box-shadow: 0 4px 20px rgba(26,26,24,0.12); }
+
+.trade-card-header {
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.trade-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.trade-date {
+  font-size: 0.65rem;
+  color: var(--muted);
+  letter-spacing: 0.04em;
+}
+
+.trade-badge {
+  padding: 3px 10px;
+  border-radius: 2px;
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.badge-call { background: var(--green-light); color: var(--green); }
+.badge-put { background: var(--red-light); color: var(--red); }
+.badge-win { background: var(--green-light); color: var(--green); }
+.badge-loss { background: var(--red-light); color: var(--red); }
+.badge-be { background: rgba(184,134,11,0.1); color: var(--gold); }
+
+.trade-ticker {
+  font-family: 'Fraunces', serif;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.trade-pnl {
+  font-family: 'Fraunces', serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.trade-pnl.pos { color: var(--green); }
+.trade-pnl.neg { color: var(--red); }
+
+.trade-card-body {
+  padding: 0 20px 16px;
+  border-top: 1px solid var(--border);
+  display: none;
+}
+
+.trade-card-body.open { display: block; padding-top: 16px; }
+
+.trade-detail-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.detail-item label {
+  font-size: 0.58rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  display: block;
+  margin-bottom: 3px;
+}
+
+.detail-item span {
+  font-size: 0.75rem;
+  color: var(--ink);
+}
+
+.trade-notes {
+  background: #0e0e12;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 12px 14px;
+  font-size: 0.72rem;
+  color: var(--muted);
+  line-height: 1.7;
+  font-style: italic;
+}
+
+/* Stats view */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 14px;
+  margin-bottom: 28px;
+}
+
+.stat-card {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 18px 20px;
+  box-shadow: var(--shadow);
+}
+
+.stat-card .val {
+  font-family: 'Fraunces', serif;
+  font-size: 1.6rem;
+  font-weight: 600;
+  line-height: 1;
+  margin-bottom: 6px;
+}
+
+.stat-card .val.pos { color: var(--green); }
+.stat-card .val.neg { color: var(--red); }
+
+.stat-card .lbl {
+  font-size: 0.6rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.notion-section {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 24px;
+  box-shadow: var(--shadow);
+}
+
+.notion-section h3 {
+  font-family: 'Fraunces', serif;
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.notion-section p {
+  font-size: 0.7rem;
+  color: var(--muted);
+  margin-bottom: 20px;
+  line-height: 1.6;
+}
+
+.notion-block {
+  background: #0e0e12;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 16px 18px;
+  margin-bottom: 10px;
+  font-size: 0.72rem;
+  line-height: 1.9;
+  color: var(--ink);
+}
+
+.notion-block strong {
+  color: var(--accent);
+  font-weight: 500;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--muted);
+}
+
+.empty-state .big {
+  font-family: 'Fraunces', serif;
+  font-size: 2rem;
+  font-weight: 300;
+  font-style: italic;
+  margin-bottom: 8px;
+  opacity: 0.4;
+}
+
+.empty-state p { font-size: 0.7rem; letter-spacing: 0.04em; }
+
+/* Animations */
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.trade-card { animation: slideIn 0.3s ease; }
+</style>
+</head>
+<body>
+<div class="app">
+
+<header>
+  <div>
+    <h1>Trade <em>Journal</em></h1>
+    <p>QQQ Options · Karli</p>
+  </div>
+  <div class="header-stats">
+    <div class="hstat">
+      <div class="hstat-val" id="hstat-trades">0</div>
+      <div class="hstat-label">Total Trades</div>
+    </div>
+    <div class="hstat">
+      <div class="hstat-val" id="hstat-winrate">—</div>
+      <div class="hstat-label">Win Rate</div>
+    </div>
+    <div class="hstat">
+      <div class="hstat-val pos" id="hstat-pnl">$0</div>
+      <div class="hstat-label">Total P&L</div>
+    </div>
+  </div>
+</header>
+
+<nav class="nav">
+  <button class="nav-btn active" onclick="showView('log', this)">Log Trade</button>
+  <button class="nav-btn" onclick="showView('history', this)">History</button>
+  <button class="nav-btn" onclick="showView('stats', this)">Stats</button>
+  <button class="nav-btn" onclick="showView('notion', this)">Notion Template</button>
+</nav>
+
+<main>
+
+<!-- LOG TRADE VIEW -->
+<div class="view active" id="view-log">
+  <div class="form-card">
+    <div class="form-header">
+      <h2>New Trade Entry</h2>
+      <span style="font-size:0.65rem;color:var(--muted)" id="today-date"></span>
+    </div>
+    <div class="form-body">
+
+      <!-- Pre-Trade Checklist -->
+      <div class="checklist">
+        <div class="checklist-title">✓ Pre-Entry Checklist — all boxes before you enter</div>
+        <label class="check-item" id="chk1">
+          <input type="checkbox" onchange="toggleCheck('chk1', this)">
+          <span>Clear base + launch candle visible (zone is valid)</span>
+        </label>
+        <label class="check-item" id="chk2">
+          <input type="checkbox" onchange="toggleCheck('chk2', this)">
+          <span>Price is retesting the zone — not past it</span>
+        </label>
+        <label class="check-item" id="chk3">
+          <input type="checkbox" onchange="toggleCheck('chk3', this)">
+          <span>Rejection signal visible (wick or indecision candle)</span>
+        </label>
+        <label class="check-item" id="chk4">
+          <input type="checkbox" onchange="toggleCheck('chk4', this)">
+          <span>Confirmation candle has fully CLOSED in my direction</span>
+        </label>
+        <label class="check-item" id="chk5">
+          <input type="checkbox" onchange="toggleCheck('chk5', this)">
+          <span>Stop loss level defined BEFORE entry</span>
+        </label>
+        <label class="check-item" id="chk6">
+          <input type="checkbox" onchange="toggleCheck('chk6', this)">
+          <span>Target defined before entry</span>
+        </label>
+        <label class="check-item" id="chk7">
+          <input type="checkbox" onchange="toggleCheck('chk7', this)">
+          <span>Not trading in chop / consolidation</span>
+        </label>
+      </div>
+
+      <!-- Direction -->
+      <div class="section-label">Trade Details</div>
+
+      <div class="form-grid">
+        <div class="field">
+          <label>Date & Time</label>
+          <input type="datetime-local" id="f-datetime">
+        </div>
+        <div class="field">
+          <label>Direction</label>
+          <div class="toggle-group">
+            <button class="toggle-btn call" onclick="selectToggle('direction','call',this)">📈 CALL</button>
+            <button class="toggle-btn put" onclick="selectToggle('direction','put',this)">📉 PUT</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-grid form-grid-3">
+        <div class="field">
+          <label>Entry Price ($)</label>
+          <input type="number" id="f-entry" placeholder="0.00" step="0.01">
+        </div>
+        <div class="field">
+          <label>Exit Price ($)</label>
+          <input type="number" id="f-exit" placeholder="0.00" step="0.01">
+        </div>
+        <div class="field">
+          <label>Contracts</label>
+          <input type="number" id="f-contracts" placeholder="1" min="1" value="1">
+        </div>
+      </div>
+
+      <div class="form-grid form-grid-3">
+        <div class="field">
+          <label>Strike Price</label>
+          <input type="number" id="f-strike" placeholder="480.00" step="0.5">
+        </div>
+        <div class="field">
+          <label>Expiration</label>
+          <select id="f-expiry">
+            <option value="0DTE">0DTE</option>
+            <option value="Next Day">Next Day</option>
+            <option value="2DTE">2DTE</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Session</label>
+          <select id="f-session">
+            <option value="9:30-11:30">9:30 – 11:30 AM</option>
+            <option value="2:00-3:30">2:00 – 3:30 PM</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-grid">
+        <div class="field">
+          <label>Stop Loss Level</label>
+          <input type="number" id="f-sl" placeholder="QQQ price" step="0.01">
+        </div>
+        <div class="field">
+          <label>Target Level</label>
+          <input type="number" id="f-target" placeholder="QQQ price" step="0.01">
+        </div>
+      </div>
+
+      <!-- Outcome -->
+      <div class="section-label">Outcome</div>
+
+      <div class="form-grid">
+        <div class="field">
+          <label>Result</label>
+          <div class="toggle-group">
+            <button class="toggle-btn win" onclick="selectToggle('outcome','win',this)">WIN</button>
+            <button class="toggle-btn loss" onclick="selectToggle('outcome','loss',this)">LOSS</button>
+            <button class="toggle-btn be" onclick="selectToggle('outcome','be',this)">B/E</button>
+          </div>
+        </div>
+        <div class="field">
+          <label>P&L (auto-calc)</label>
+          <input type="text" id="f-pnl" placeholder="$0.00" readonly style="background:#0a0a0e;color:var(--muted)">
+        </div>
+      </div>
+
+      <!-- Psychology -->
+      <div class="section-label">Psychology</div>
+
+      <div class="field" style="margin-bottom:12px">
+        <label>Emotional State Before Trade</label>
+        <div class="emotion-row" id="emotion-group">
+          <button class="emotion-btn" onclick="selectEmotion(this)">Calm ✓</button>
+          <button class="emotion-btn" onclick="selectEmotion(this)">Hesitant</button>
+          <button class="emotion-btn" onclick="selectEmotion(this)">Confident</button>
+          <button class="emotion-btn" onclick="selectEmotion(this)">Anxious</button>
+          <button class="emotion-btn" onclick="selectEmotion(this)">FOMO</button>
+          <button class="emotion-btn" onclick="selectEmotion(this)">Rushed</button>
+          <button class="emotion-btn" onclick="selectEmotion(this)">Uncertain</button>
+        </div>
+      </div>
+
+      <!-- Notes -->
+      <div class="section-label">Notes & Review</div>
+
+      <div class="form-grid">
+        <div class="field">
+          <label>Why I Took This Trade</label>
+          <textarea id="f-why" placeholder="Zone was clear. Confirmation candle closed bearish after rejection at 585 supply zone..."></textarea>
+        </div>
+        <div class="field">
+          <label>What I Did Well</label>
+          <textarea id="f-well" placeholder="Waited for full candle close. Did not chase..."></textarea>
+        </div>
+      </div>
+
+      <div class="form-grid">
+        <div class="field">
+          <label>What I Could Improve</label>
+          <textarea id="f-improve" placeholder="Exited early out of fear. Should have held to target..."></textarea>
+        </div>
+        <div class="field">
+          <label>Lesson Learned</label>
+          <textarea id="f-lesson" placeholder="Trust the system. When confirmation is clean, hold the trade..."></textarea>
+        </div>
+      </div>
+
+      <button class="btn-primary" onclick="saveTrade()">Save Trade Entry →</button>
+    </div>
+  </div>
+</div>
+
+<!-- HISTORY VIEW -->
+<div class="view" id="view-history">
+  <div id="trade-log-container">
+    <div class="empty-state">
+      <div class="big">No trades yet.</div>
+      <p>Log your first trade to see it here.</p>
+    </div>
+  </div>
+</div>
+
+<!-- STATS VIEW -->
+<div class="view" id="view-stats">
+  <div class="stats-grid" id="stats-grid">
+    <div class="stat-card"><div class="val" id="s-total">0</div><div class="lbl">Total Trades</div></div>
+    <div class="stat-card"><div class="val pos" id="s-wins">0</div><div class="lbl">Wins</div></div>
+    <div class="stat-card"><div class="val neg" id="s-losses">0</div><div class="lbl">Losses</div></div>
+    <div class="stat-card"><div class="val" id="s-winrate">—</div><div class="lbl">Win Rate</div></div>
+    <div class="stat-card"><div class="val" id="s-pnl">$0</div><div class="lbl">Total P&L</div></div>
+    <div class="stat-card"><div class="val pos" id="s-avg-win">$0</div><div class="lbl">Avg Win</div></div>
+    <div class="stat-card"><div class="val neg" id="s-avg-loss">$0</div><div class="lbl">Avg Loss</div></div>
+    <div class="stat-card"><div class="val" id="s-calls">0</div><div class="lbl">Calls Taken</div></div>
+    <div class="stat-card"><div class="val" id="s-puts">0</div><div class="lbl">Puts Taken</div></div>
+  </div>
+
+  <div class="notion-section">
+    <h3>Pattern Tracker</h3>
+    <p>After 10+ trades, look for your patterns here.</p>
+    <div class="notion-block">
+      <strong>Most winning session:</strong> Check your history — are most wins from 9:30–11:30 AM? <br>
+      <strong>Most common mistake:</strong> Early exit? No confirmation? Consolidation trade? <br>
+      <strong>Best direction:</strong> More wins on calls or puts? <br>
+      <strong>Emotion pattern:</strong> Do you win more when Calm vs Hesitant?
+    </div>
+  </div>
+</div>
+
+<!-- NOTION TEMPLATE VIEW -->
+<div class="view" id="view-notion">
+  <div class="notion-section">
+    <h3>Notion Template — Copy & Paste Setup</h3>
+    <p>Create a new Notion database called "Trade Journal" with the following properties. Each row = one trade.</p>
+
+    <div class="section-label">Database Properties</div>
+
+    <div class="notion-block">
+      <strong>📅 Date</strong> → Type: Date<br>
+      <strong>⏰ Session</strong> → Type: Select → Options: 9:30-11:30 AM / 2:00-3:30 PM / Other<br>
+      <strong>📈 Direction</strong> → Type: Select → Options: CALL / PUT<br>
+      <strong>🎯 Strike</strong> → Type: Number<br>
+      <strong>📆 Expiration</strong> → Type: Select → Options: 0DTE / Next Day / 2DTE<br>
+      <strong>💵 Entry Price</strong> → Type: Number<br>
+      <strong>💵 Exit Price</strong> → Type: Number<br>
+      <strong>🔢 Contracts</strong> → Type: Number<br>
+      <strong>🛑 Stop Loss Level</strong> → Type: Number (QQQ price)<br>
+      <strong>🎯 Target Level</strong> → Type: Number (QQQ price)<br>
+      <strong>✅ Result</strong> → Type: Select → Options: WIN / LOSS / BREAKEVEN<br>
+      <strong>💰 P&L ($)</strong> → Type: Formula → (Exit - Entry) × Contracts × 100<br>
+      <strong>🧠 Emotion</strong> → Type: Select → Options: Calm / Hesitant / Confident / Anxious / FOMO / Rushed<br>
+      <strong>📋 Checklist Complete</strong> → Type: Checkbox
+    </div>
+
+    <div class="section-label">Page Template (inside each trade row)</div>
+
+    <div class="notion-block">
+      <strong>## Pre-Entry Checklist</strong><br>
+      ☐ Clear base + launch candle (zone valid)<br>
+      ☐ Price retesting zone — not past it<br>
+      ☐ Rejection signal visible<br>
+      ☐ Confirmation candle CLOSED in my direction<br>
+      ☐ Stop loss defined before entry<br>
+      ☐ Target defined before entry<br>
+      ☐ Not trading in chop<br><br>
+      <strong>## Why I Took This Trade</strong><br>
+      [Your reasoning here]<br><br>
+      <strong>## What I Did Well</strong><br>
+      [Positive notes]<br><br>
+      <strong>## What I Could Improve</strong><br>
+      [Honest critique]<br><br>
+      <strong>## Lesson Learned</strong><br>
+      [One key takeaway]<br><br>
+      <strong>## Chart Screenshot</strong><br>
+      [Paste your chart image here]
+    </div>
+
+    <div class="section-label">Recommended Views in Notion</div>
+
+    <div class="notion-block">
+      <strong>📊 Table View</strong> → Default. See all trades at a glance.<br>
+      <strong>📅 Calendar View</strong> → Group by Date. See which days you traded.<br>
+      <strong>📈 Gallery View</strong> → Group by Result. See wins vs losses visually.<br>
+      <strong>🔢 Filter: This Week</strong> → Date filter to review recent trades only.<br>
+      <strong>📉 Sort: P&L Descending</strong> → See your best trades first.
+    </div>
+
+    <div class="section-label">Weekly Review Template (separate Notion page)</div>
+
+    <div class="notion-block">
+      <strong>Week of:</strong> [date]<br><br>
+      <strong>Trades taken:</strong> __ &nbsp;|&nbsp; <strong>Wins:</strong> __ &nbsp;|&nbsp; <strong>Losses:</strong> __ &nbsp;|&nbsp; <strong>Win rate:</strong> __%<br>
+      <strong>Total P&L:</strong> $__<br><br>
+      <strong>Best trade this week:</strong> [why it worked]<br>
+      <strong>Worst trade this week:</strong> [what went wrong]<br>
+      <strong>Did I follow my checklist every time?</strong> Y / N — if no, why?<br>
+      <strong>Did I trade in consolidation?</strong> Y / N<br>
+      <strong>Did I exit early out of fear?</strong> Y / N<br>
+      <strong>Most common emotion:</strong> [calm/hesitant/FOMO/etc]<br><br>
+      <strong>One thing to focus on next week:</strong> [single focus]
+    </div>
+  </div>
+</div>
+
+</main>
+</div>
+
+<script>
+// State
+let trades = JSON.parse(localStorage.getItem('karli-trades') || '[]');
+let formState = { direction: null, outcome: null, emotion: null };
+
+// Init
+document.addEventListener('DOMContentLoaded', () => {
+  const now = new Date();
+  document.getElementById('today-date').textContent = now.toLocaleDateString('en-US', { weekday:'long', month:'long', day:'numeric', year:'numeric' });
+  const dt = document.getElementById('f-datetime');
+  dt.value = now.toISOString().slice(0,16);
+  renderHistory();
+  updateHeaderStats();
+  // Auto-calc P&L
+  ['f-entry','f-exit','f-contracts'].forEach(id => {
+    document.getElementById(id).addEventListener('input', calcPnl);
+  });
+});
+
+function calcPnl() {
+  const entry = parseFloat(document.getElementById('f-entry').value) || 0;
+  const exit = parseFloat(document.getElementById('f-exit').value) || 0;
+  const contracts = parseInt(document.getElementById('f-contracts').value) || 1;
+  if (entry && exit) {
+    const pnl = (exit - entry) * contracts * 100;
+    const el = document.getElementById('f-pnl');
+    el.value = (pnl >= 0 ? '+' : '') + '$' + pnl.toFixed(2);
+    el.style.color = pnl >= 0 ? '#BB96E7' : '#CAC2D1';
+  }
+}
+
+function selectToggle(group, val, btn) {
+  formState[group] = val;
+  const btns = btn.parentElement.querySelectorAll('.toggle-btn');
+  btns.forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+}
+
+function selectEmotion(btn) {
+  document.querySelectorAll('.emotion-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  formState.emotion = btn.textContent.replace(' ✓','').trim();
+}
+
+function toggleCheck(id, cb) {
+  const label = document.getElementById(id);
+  if (cb.checked) label.classList.add('checked');
+  else label.classList.remove('checked');
+}
+
+function saveTrade() {
+  const entry = parseFloat(document.getElementById('f-entry').value);
+  const exit = parseFloat(document.getElementById('f-exit').value);
+  const contracts = parseInt(document.getElementById('f-contracts').value) || 1;
+
+  if (!formState.direction) { alert('Please select CALL or PUT'); return; }
+  if (!entry) { alert('Please enter an entry price'); return; }
+
+  const pnl = exit ? (exit - entry) * contracts * 100 : 0;
+
+  const trade = {
+    id: Date.now(),
+    datetime: document.getElementById('f-datetime').value,
+    direction: formState.direction,
+    outcome: formState.outcome,
+    entry, exit, contracts,
+    strike: document.getElementById('f-strike').value,
+    expiry: document.getElementById('f-expiry').value,
+    session: document.getElementById('f-session').value,
+    sl: document.getElementById('f-sl').value,
+    target: document.getElementById('f-target').value,
+    pnl,
+    emotion: formState.emotion,
+    why: document.getElementById('f-why').value,
+    well: document.getElementById('f-well').value,
+    improve: document.getElementById('f-improve').value,
+    lesson: document.getElementById('f-lesson').value,
+    checklist: [1,2,3,4,5,6,7].map(i => document.querySelector(`#chk${i} input`).checked)
+  };
+
+  trades.unshift(trade);
+  localStorage.setItem('karli-trades', JSON.stringify(trades));
+  resetForm();
+  renderHistory();
+  updateHeaderStats();
+  showView('history', document.querySelectorAll('.nav-btn')[1]);
+}
+
+function resetForm() {
+  document.getElementById('f-entry').value = '';
+  document.getElementById('f-exit').value = '';
+  document.getElementById('f-contracts').value = '1';
+  document.getElementById('f-strike').value = '';
+  document.getElementById('f-sl').value = '';
+  document.getElementById('f-target').value = '';
+  document.getElementById('f-pnl').value = '';
+  document.getElementById('f-why').value = '';
+  document.getElementById('f-well').value = '';
+  document.getElementById('f-improve').value = '';
+  document.getElementById('f-lesson').value = '';
+  formState = { direction: null, outcome: null, emotion: null };
+  document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('selected'));
+  document.querySelectorAll('.emotion-btn').forEach(b => b.classList.remove('selected'));
+  document.querySelectorAll('.check-item input').forEach(cb => cb.checked = false);
+  document.querySelectorAll('.check-item').forEach(el => el.classList.remove('checked'));
+}
+
+function renderHistory() {
+  const container = document.getElementById('trade-log-container');
+  if (!trades.length) {
+    container.innerHTML = `<div class="empty-state"><div class="big">No trades yet.</div><p>Log your first trade to see it here.</p></div>`;
+    return;
+  }
+  container.innerHTML = `<div class="trade-log">${trades.map(t => tradeCard(t)).join('')}</div>`;
+  updateStats();
+}
+
+function tradeCard(t) {
+  const date = t.datetime ? new Date(t.datetime).toLocaleString('en-US', { month:'short', day:'numeric', hour:'numeric', minute:'2-digit' }) : '—';
+  const pnlClass = t.pnl > 0 ? 'pos' : t.pnl < 0 ? 'neg' : '';
+  const pnlStr = t.pnl ? (t.pnl > 0 ? '+' : '') + '$' + Math.abs(t.pnl).toFixed(0) : '—';
+  const outcomeMap = { win: 'badge-win', loss: 'badge-loss', be: 'badge-be' };
+  const outcomeLbl = { win: 'WIN', loss: 'LOSS', be: 'B/E' };
+  const checksPassed = t.checklist ? t.checklist.filter(Boolean).length : 0;
+
+  return `
+  <div class="trade-card">
+    <div class="trade-card-header" onclick="toggleCard(${t.id})">
+      <div class="trade-meta">
+        <span class="trade-date">${date}</span>
+        <span class="trade-badge ${t.direction === 'call' ? 'badge-call' : 'badge-put'}">${t.direction?.toUpperCase() || '—'}</span>
+        ${t.outcome ? `<span class="trade-badge ${outcomeMap[t.outcome]}">${outcomeLbl[t.outcome]}</span>` : ''}
+        <span class="trade-ticker">QQQ ${t.strike || ''} ${t.expiry || ''}</span>
+        ${t.emotion ? `<span style="font-size:0.62rem;color:var(--muted)">${t.emotion}</span>` : ''}
+      </div>
+      <div style="display:flex;align-items:center;gap:16px">
+        <span style="font-size:0.62rem;color:var(--muted)">${checksPassed}/7 checks</span>
+        <span class="trade-pnl ${pnlClass}">${pnlStr}</span>
+      </div>
+    </div>
+    <div class="trade-card-body" id="body-${t.id}">
+      <div class="trade-detail-grid">
+        <div class="detail-item"><label>Entry</label><span>$${t.entry || '—'}</span></div>
+        <div class="detail-item"><label>Exit</label><span>$${t.exit || '—'}</span></div>
+        <div class="detail-item"><label>Contracts</label><span>${t.contracts}</span></div>
+        <div class="detail-item"><label>Session</label><span>${t.session || '—'}</span></div>
+        <div class="detail-item"><label>Stop Loss</label><span>${t.sl || '—'}</span></div>
+        <div class="detail-item"><label>Target</label><span>${t.target || '—'}</span></div>
+      </div>
+      ${t.why ? `<div class="trade-notes"><strong style="color:var(--accent);font-style:normal">Why I took it:</strong> ${t.why}</div>` : ''}
+      ${t.lesson ? `<div class="trade-notes" style="margin-top:8px"><strong style="color:var(--accent);font-style:normal">Lesson:</strong> ${t.lesson}</div>` : ''}
+    </div>
+  </div>`;
+}
+
+function toggleCard(id) {
+  const body = document.getElementById(`body-${id}`);
+  body.classList.toggle('open');
+}
+
+function updateStats() {
+  const wins = trades.filter(t => t.outcome === 'win').length;
+  const losses = trades.filter(t => t.outcome === 'loss').length;
+  const total = trades.length;
+  const winrate = total ? Math.round((wins / total) * 100) : 0;
+  const totalPnl = trades.reduce((sum, t) => sum + (t.pnl || 0), 0);
+  const winTrades = trades.filter(t => t.pnl > 0);
+  const lossTrades = trades.filter(t => t.pnl < 0);
+  const avgWin = winTrades.length ? winTrades.reduce((s,t) => s + t.pnl, 0) / winTrades.length : 0;
+  const avgLoss = lossTrades.length ? lossTrades.reduce((s,t) => s + t.pnl, 0) / lossTrades.length : 0;
+  const calls = trades.filter(t => t.direction === 'call').length;
+  const puts = trades.filter(t => t.direction === 'put').length;
+
+  document.getElementById('s-total').textContent = total;
+  document.getElementById('s-wins').textContent = wins;
+  document.getElementById('s-losses').textContent = losses;
+  document.getElementById('s-winrate').textContent = total ? winrate + '%' : '—';
+  document.getElementById('s-pnl').textContent = (totalPnl >= 0 ? '+' : '') + '$' + Math.abs(totalPnl).toFixed(0);
+  document.getElementById('s-pnl').className = 'val ' + (totalPnl >= 0 ? 'pos' : 'neg');  document.getElementById('s-avg-win').textContent = avgWin ? '+$' + avgWin.toFixed(0) : '$0';
+  document.getElementById('s-avg-loss').textContent = avgLoss ? '-$' + Math.abs(avgLoss).toFixed(0) : '$0';
+  document.getElementById('s-calls').textContent = calls;
+  document.getElementById('s-puts').textContent = puts;
+}
+
+function updateHeaderStats() {
+  const total = trades.length;
+  const wins = trades.filter(t => t.outcome === 'win').length;
+  const winrate = total ? Math.round((wins / total) * 100) : null;
+  const totalPnl = trades.reduce((sum, t) => sum + (t.pnl || 0), 0);
+
+  document.getElementById('hstat-trades').textContent = total;
+  document.getElementById('hstat-winrate').textContent = winrate !== null ? winrate + '%' : '—';
+  const pnlEl = document.getElementById('hstat-pnl');
+  pnlEl.textContent = (totalPnl >= 0 ? '+' : '-') + '$' + Math.abs(totalPnl).toFixed(0);
+  pnlEl.className = 'hstat-val ' + (totalPnl >= 0 ? 'pos' : 'neg');
+}
+
+function showView(name, btn) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('view-' + name).classList.add('active');
+  if (btn) btn.classList.add('active');
+  if (name === 'stats') { renderHistory(); updateStats(); }
+}
+</script>
+</body>
+</html>
