@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -21,38 +22,38 @@ body{background:var(--bg);color:var(--ink);font-family:'DM Mono',monospace;min-h
 body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none;z-index:0;opacity:0.4;}
 .app{position:relative;z-index:1;}
 
-header{background:#0a0a0e;padding:18px 24px 14px;display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:12px;border-bottom:1px solid var(--border);}
-header h1{font-family:'Fraunces',serif;font-size:clamp(1.2rem,4vw,1.8rem);font-weight:900;line-height:1;letter-spacing:-0.02em;}
+header{background:#0a0a0e;padding:18px 24px 14px;display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:12px;border-bottom:1px solid var(–border);}
+header h1{font-family:‘Fraunces’,serif;font-size:clamp(1.2rem,4vw,1.8rem);font-weight:900;line-height:1;letter-spacing:-0.02em;}
 header h1 em{font-style:italic;font-weight:300;color:rgba(232,228,240,0.3);}
 header p{font-size:0.58rem;color:rgba(232,228,240,0.28);letter-spacing:0.1em;text-transform:uppercase;margin-top:4px;}
 .header-stats{display:flex;gap:16px;flex-wrap:wrap;align-items:flex-end;}
 .hstat{text-align:right;}
-.hstat-val{font-family:'Fraunces',serif;font-size:1.1rem;font-weight:600;line-height:1;}
+.hstat-val{font-family:‘Fraunces’,serif;font-size:1.1rem;font-weight:600;line-height:1;}
 .hstat-val.sim{color:#CAC2D1;} .hstat-val.live{color:#BB96E7;}
 .hstat-val.pos{color:#BB96E7;} .hstat-val.neg{color:#CAC2D1;}
 .hstat-label{font-size:0.52rem;color:rgba(232,228,240,0.28);letter-spacing:0.08em;text-transform:uppercase;margin-top:3px;}
 
-.nav{background:#0a0a0e;border-bottom:1px solid var(--border);display:flex;padding:0 24px;overflow-x:auto;}
-.nav-btn{padding:9px 15px;background:none;border:none;border-bottom:2px solid transparent;color:rgba(232,228,240,0.28);font-family:'DM Mono',monospace;font-size:0.58rem;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;transition:all 0.2s;white-space:nowrap;}
+.nav{background:#0a0a0e;border-bottom:1px solid var(–border);display:flex;padding:0 24px;overflow-x:auto;}
+.nav-btn{padding:9px 15px;background:none;border:none;border-bottom:2px solid transparent;color:rgba(232,228,240,0.28);font-family:‘DM Mono’,monospace;font-size:0.58rem;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;transition:all 0.2s;white-space:nowrap;}
 .nav-btn:hover{color:rgba(232,228,240,0.6);}
-.nav-btn.active{color:var(--ink);border-bottom-color:var(--accent);}
+.nav-btn.active{color:var(–ink);border-bottom-color:var(–accent);}
 
 main{padding:18px 24px;max-width:860px;margin:0 auto;}
 @media(max-width:600px){main{padding:14px;}header{padding:14px;}.nav{padding:0 14px;}}
 
 .view{display:none;} .view.active{display:block;}
 
-.type-toggle{display:flex;margin-bottom:16px;background:var(--paper);border:1px solid var(--border);border-radius:5px;overflow:hidden;}
-.type-btn{flex:1;padding:11px;border:none;background:none;font-family:'DM Mono',monospace;font-size:0.68rem;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;transition:all 0.2s;color:var(--muted);}
-.type-btn.sim.active{background:var(--sim-light);color:var(--sim);border-bottom:2px solid var(--sim);}
-.type-btn.live.active{background:var(--live-light);color:var(--live);border-bottom:2px solid var(--live);}
+.type-toggle{display:flex;margin-bottom:16px;background:var(–paper);border:1px solid var(–border);border-radius:5px;overflow:hidden;}
+.type-btn{flex:1;padding:11px;border:none;background:none;font-family:‘DM Mono’,monospace;font-size:0.68rem;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;transition:all 0.2s;color:var(–muted);}
+.type-btn.sim.active{background:var(–sim-light);color:var(–sim);border-bottom:2px solid var(–sim);}
+.type-btn.live.active{background:var(–live-light);color:var(–live);border-bottom:2px solid var(–live);}
 
-.live-warning{display:none;background:rgba(245,166,35,0.08);border:1px solid rgba(245,166,35,0.22);border-radius:4px;padding:10px 14px;font-size:0.66rem;color:var(--live);margin-bottom:14px;line-height:1.6;}
+.live-warning{display:none;background:rgba(245,166,35,0.08);border:1px solid rgba(245,166,35,0.22);border-radius:4px;padding:10px 14px;font-size:0.66rem;color:var(–live);margin-bottom:14px;line-height:1.6;}
 .live-warning.show{display:block;}
 
-.form-card{background:var(--paper);border:1px solid var(--border);border-radius:5px;box-shadow:var(--shadow);overflow:hidden;}
-.form-header{padding:14px 20px 12px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
-.form-header h2{font-family:'Fraunces',serif;font-size:0.95rem;font-weight:600;}
+.form-card{background:var(–paper);border:1px solid var(–border);border-radius:5px;box-shadow:var(–shadow);overflow:hidden;}
+.form-header{padding:14px 20px 12px;border-bottom:1px solid var(–border);display:flex;align-items:center;justify-content:space-between;}
+.form-header h2{font-family:‘Fraunces’,serif;font-size:0.95rem;font-weight:600;}
 .form-body{padding:18px 20px;}
 
 .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;}
@@ -60,128 +61,187 @@ main{padding:18px 24px;max-width:860px;margin:0 auto;}
 @media(max-width:560px){.form-grid,.form-grid-3{grid-template-columns:1fr;}}
 
 .field{display:flex;flex-direction:column;gap:5px;}
-.field label{font-size:0.56rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);}
-.field input,.field select,.field textarea{background:#0e0e12;border:1px solid var(--border);border-radius:3px;padding:8px 10px;font-family:'DM Mono',monospace;font-size:0.74rem;color:var(--ink);outline:none;transition:border-color 0.2s;width:100%;}
-.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--accent);}
+.field label{font-size:0.56rem;letter-spacing:0.1em;text-transform:uppercase;color:var(–muted);}
+.field input,.field select,.field textarea{background:#0e0e12;border:1px solid var(–border);border-radius:3px;padding:8px 10px;font-family:‘DM Mono’,monospace;font-size:0.74rem;color:var(–ink);outline:none;transition:border-color 0.2s;width:100%;}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(–accent);}
 .field textarea{resize:vertical;min-height:65px;line-height:1.6;}
 
 .toggle-group{display:flex;gap:6px;}
-.toggle-btn{flex:1;padding:7px 6px;border-radius:3px;border:1px solid var(--border);background:#0e0e12;font-family:'DM Mono',monospace;font-size:0.66rem;cursor:pointer;transition:all 0.15s;color:var(--muted);}
-.toggle-btn.call.selected{background:var(--profit-light);border-color:var(--profit);color:var(--profit);}
-.toggle-btn.put.selected{background:var(--loss-light);border-color:var(--loss);color:var(--loss);}
-.toggle-btn.win.selected{background:var(--profit-light);border-color:var(--profit);color:var(--profit);}
-.toggle-btn.loss.selected{background:var(--loss-light);border-color:var(--loss);color:var(--loss);}
-.toggle-btn.be.selected{background:rgba(184,134,11,0.1);border-color:var(--gold);color:var(--gold);}
+.toggle-btn{flex:1;padding:7px 6px;border-radius:3px;border:1px solid var(–border);background:#0e0e12;font-family:‘DM Mono’,monospace;font-size:0.66rem;cursor:pointer;transition:all 0.15s;color:var(–muted);}
+.toggle-btn.call.selected{background:var(–profit-light);border-color:var(–profit);color:var(–profit);}
+.toggle-btn.put.selected{background:var(–loss-light);border-color:var(–loss);color:var(–loss);}
+.toggle-btn.win.selected{background:var(–profit-light);border-color:var(–profit);color:var(–profit);}
+.toggle-btn.loss.selected{background:var(–loss-light);border-color:var(–loss);color:var(–loss);}
+.toggle-btn.be.selected{background:rgba(184,134,11,0.1);border-color:var(–gold);color:var(–gold);}
 
-.checklist{background:#0a0a0e;border:1px solid var(--border);border-radius:4px;padding:14px 16px;margin-bottom:14px;}
-.checklist-title{font-size:0.56rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:12px;}
-.checklist-phase{font-size:0.58rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent);margin:12px 0 6px;padding-bottom:4px;border-bottom:1px solid var(--border);}
+.checklist{background:#0a0a0e;border:1px solid var(–border);border-radius:4px;padding:14px 16px;margin-bottom:14px;}
+.checklist-title{font-size:0.56rem;letter-spacing:0.1em;text-transform:uppercase;color:var(–muted);margin-bottom:12px;}
+.checklist-phase{font-size:0.58rem;letter-spacing:0.08em;text-transform:uppercase;color:var(–accent);margin:12px 0 6px;padding-bottom:4px;border-bottom:1px solid var(–border);}
 .check-item{display:flex;align-items:flex-start;gap:9px;padding:6px 0;border-bottom:1px solid rgba(42,40,48,0.4);cursor:pointer;}
 .check-item:last-child{border-bottom:none;}
-.check-item input[type="checkbox"]{width:13px;height:13px;accent-color:var(--accent);cursor:pointer;flex-shrink:0;margin-top:2px;}
+.check-item input[type=“checkbox”]{width:13px;height:13px;accent-color:var(–accent);cursor:pointer;flex-shrink:0;margin-top:2px;}
 .check-content{flex:1;}
-.check-label{font-size:0.67rem;color:var(--muted);line-height:1.4;display:block;}
+.check-label{font-size:0.67rem;color:var(–muted);line-height:1.4;display:block;}
 .check-detail{font-size:0.6rem;color:rgba(122,116,138,0.55);display:block;margin-top:2px;line-height:1.4;}
-.check-item.checked .check-label{color:var(--ink);text-decoration:line-through;text-decoration-color:var(--accent);}
-.checklist-score{display:flex;align-items:center;justify-content:space-between;margin-top:10px;padding-top:8px;border-top:1px solid var(--border);}
-.score-bar-wrap{flex:1;height:3px;background:var(--border);border-radius:2px;margin:0 10px;overflow:hidden;}
-.score-bar{height:100%;background:var(--accent);border-radius:2px;transition:width 0.3s;width:0%;}
-.score-text{font-size:0.6rem;color:var(--muted);}
+.check-item.checked .check-label{color:var(–ink);text-decoration:line-through;text-decoration-color:var(–accent);}
+.checklist-score{display:flex;align-items:center;justify-content:space-between;margin-top:10px;padding-top:8px;border-top:1px solid var(–border);}
+.score-bar-wrap{flex:1;height:3px;background:var(–border);border-radius:2px;margin:0 10px;overflow:hidden;}
+.score-bar{height:100%;background:var(–accent);border-radius:2px;transition:width 0.3s;width:0%;}
+.score-text{font-size:0.6rem;color:var(–muted);}
 
 .emotion-row{display:flex;gap:6px;flex-wrap:wrap;}
-.emotion-btn{padding:5px 10px;border-radius:20px;border:1px solid var(--border);background:#0e0e12;font-family:'DM Mono',monospace;font-size:0.6rem;cursor:pointer;transition:all 0.15s;color:var(--muted);}
-.emotion-btn.selected{background:var(--accent-light);border-color:var(--accent);color:var(--accent);}
+.emotion-btn{padding:5px 10px;border-radius:20px;border:1px solid var(–border);background:#0e0e12;font-family:‘DM Mono’,monospace;font-size:0.6rem;cursor:pointer;transition:all 0.15s;color:var(–muted);}
+.emotion-btn.selected{background:var(–accent-light);border-color:var(–accent);color:var(–accent);}
 
-.btn-primary{width:100%;padding:11px;background:#BB96E7;color:#0e0e12;border:none;border-radius:3px;font-family:'DM Mono',monospace;font-size:0.68rem;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;transition:background 0.2s;margin-top:12px;font-weight:700;}
+.btn-primary{width:100%;padding:11px;background:#BB96E7;color:#0e0e12;border:none;border-radius:3px;font-family:‘DM Mono’,monospace;font-size:0.68rem;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;transition:background 0.2s;margin-top:12px;font-weight:700;}
 .btn-primary:hover{background:#c9a8f0;}
 
-.section-label{font-size:0.54rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin:16px 0 9px;display:flex;align-items:center;gap:9px;}
-.section-label::after{content:'';flex:1;height:1px;background:var(--border);}
+.section-label{font-size:0.54rem;letter-spacing:0.12em;text-transform:uppercase;color:var(–muted);margin:16px 0 9px;display:flex;align-items:center;gap:9px;}
+.section-label::after{content:’’;flex:1;height:1px;background:var(–border);}
 
 .filter-row{display:flex;gap:7px;margin-bottom:14px;flex-wrap:wrap;}
-.filter-btn{padding:5px 12px;border-radius:3px;border:1px solid var(--border);background:var(--paper);font-family:'DM Mono',monospace;font-size:0.6rem;cursor:pointer;color:var(--muted);transition:all 0.15s;}
-.filter-btn.active{background:var(--accent-light);border-color:var(--accent);color:var(--accent);}
-.filter-btn.sim-f{background:var(--sim-light);border-color:var(--sim);color:var(--sim);}
-.filter-btn.live-f{background:var(--live-light);border-color:var(--live);color:var(--live);}
+.filter-btn{padding:5px 12px;border-radius:3px;border:1px solid var(–border);background:var(–paper);font-family:‘DM Mono’,monospace;font-size:0.6rem;cursor:pointer;color:var(–muted);transition:all 0.15s;}
+.filter-btn.active{background:var(–accent-light);border-color:var(–accent);color:var(–accent);}
+.filter-btn.sim-f{background:var(–sim-light);border-color:var(–sim);color:var(–sim);}
+.filter-btn.live-f{background:var(–live-light);border-color:var(–live);color:var(–live);}
 
 .trade-log{display:flex;flex-direction:column;gap:9px;}
-.trade-card{background:var(--paper);border:1px solid var(--border);border-radius:4px;box-shadow:var(--shadow);overflow:hidden;}
-.trade-card.is-sim{border-left:3px solid var(--sim);}
-.trade-card.is-live{border-left:3px solid var(--live);}
+.trade-card{background:var(–paper);border:1px solid var(–border);border-radius:4px;box-shadow:var(–shadow);overflow:hidden;}
+.trade-card.is-sim{border-left:3px solid var(–sim);}
+.trade-card.is-live{border-left:3px solid var(–live);}
 .trade-card-header{padding:11px 15px;display:flex;align-items:center;justify-content:space-between;gap:9px;flex-wrap:wrap;cursor:pointer;}
 .trade-meta{display:flex;align-items:center;gap:7px;flex-wrap:wrap;}
-.trade-date{font-size:0.6rem;color:var(--muted);}
+.trade-date{font-size:0.6rem;color:var(–muted);}
 .trade-badge{padding:2px 7px;border-radius:2px;font-size:0.58rem;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;}
-.badge-call{background:var(--profit-light);color:var(--profit);}
-.badge-put{background:var(--loss-light);color:var(--loss);}
-.badge-win{background:var(--profit-light);color:var(--profit);}
-.badge-loss{background:var(--loss-light);color:var(--loss);}
-.badge-be{background:rgba(184,134,11,0.1);color:var(--gold);}
-.badge-sim{background:var(--sim-light);color:var(--sim);}
-.badge-live{background:var(--live-light);color:var(--live);}
-.trade-ticker{font-family:'Fraunces',serif;font-size:0.85rem;font-weight:600;}
-.trade-pnl{font-family:'Fraunces',serif;font-size:0.95rem;font-weight:600;}
+.badge-call{background:var(–profit-light);color:var(–profit);}
+.badge-put{background:var(–loss-light);color:var(–loss);}
+.badge-win{background:var(–profit-light);color:var(–profit);}
+.badge-loss{background:var(–loss-light);color:var(–loss);}
+.badge-be{background:rgba(184,134,11,0.1);color:var(–gold);}
+.badge-sim{background:var(–sim-light);color:var(–sim);}
+.badge-live{background:var(–live-light);color:var(–live);}
+.trade-ticker{font-family:‘Fraunces’,serif;font-size:0.85rem;font-weight:600;}
+.trade-pnl{font-family:‘Fraunces’,serif;font-size:0.95rem;font-weight:600;}
 .trade-pnl.pos{color:#BB96E7;}
 .trade-pnl.neg{color:#CAC2D1;}
-.trade-card-body{padding:0 15px 14px;border-top:1px solid var(--border);display:none;}
+.trade-card-body{padding:0 15px 14px;border-top:1px solid var(–border);display:none;}
 .trade-card-body.open{display:block;padding-top:12px;}
 .trade-detail-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:9px;margin-bottom:10px;}
-.detail-item label{font-size:0.53rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:2px;}
-.detail-item span{font-size:0.7rem;color:var(--ink);}
-.trade-notes{background:#0a0a0e;border:1px solid var(--border);border-radius:3px;padding:9px 12px;font-size:0.68rem;color:var(--muted);line-height:1.7;font-style:italic;}
+.detail-item label{font-size:0.53rem;letter-spacing:0.1em;text-transform:uppercase;color:var(–muted);display:block;margin-bottom:2px;}
+.detail-item span{font-size:0.7rem;color:var(–ink);}
+.trade-notes{background:#0a0a0e;border:1px solid var(–border);border-radius:3px;padding:9px 12px;font-size:0.68rem;color:var(–muted);line-height:1.7;font-style:italic;}
 
 /* Card action buttons */
-.card-actions{display:flex;gap:7px;margin-top:12px;padding-top:10px;border-top:1px solid var(--border);}
-.btn-edit{padding:5px 14px;background:var(--accent-light);border:1px solid var(--accent);border-radius:3px;color:var(--accent);font-family:'DM Mono',monospace;font-size:0.6rem;cursor:pointer;letter-spacing:0.06em;text-transform:uppercase;transition:all 0.15s;}
-.btn-edit:hover{background:var(--accent);color:#0e0e12;}
-.btn-delete{padding:5px 14px;background:rgba(202,194,209,0.06);border:1px solid rgba(202,194,209,0.2);border-radius:3px;color:#CAC2D1;font-family:'DM Mono',monospace;font-size:0.6rem;cursor:pointer;letter-spacing:0.06em;text-transform:uppercase;transition:all 0.15s;}
+.card-actions{display:flex;gap:7px;margin-top:12px;padding-top:10px;border-top:1px solid var(–border);}
+.btn-edit{padding:5px 14px;background:var(–accent-light);border:1px solid var(–accent);border-radius:3px;color:var(–accent);font-family:‘DM Mono’,monospace;font-size:0.6rem;cursor:pointer;letter-spacing:0.06em;text-transform:uppercase;transition:all 0.15s;}
+.btn-edit:hover{background:var(–accent);color:#0e0e12;}
+.btn-delete{padding:5px 14px;background:rgba(202,194,209,0.06);border:1px solid rgba(202,194,209,0.2);border-radius:3px;color:#CAC2D1;font-family:‘DM Mono’,monospace;font-size:0.6rem;cursor:pointer;letter-spacing:0.06em;text-transform:uppercase;transition:all 0.15s;}
 .btn-delete:hover{background:rgba(202,194,209,0.15);}
 
 /* Edit Modal */
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:200;overflow-y:auto;padding:20px;}
 .modal-overlay.show{display:flex;align-items:flex-start;justify-content:center;}
-.modal{background:var(--paper);border:1px solid var(--border);border-radius:6px;width:100%;max-width:700px;box-shadow:0 12px 50px rgba(0,0,0,0.7);margin:auto;}
-.modal-header{padding:14px 20px 12px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:var(--paper);z-index:1;}
-.modal-header h2{font-family:'Fraunces',serif;font-size:0.95rem;font-weight:600;color:var(--accent);}
-.modal-close{background:none;border:none;color:var(--muted);font-size:1.3rem;cursor:pointer;padding:0 4px;line-height:1;}
-.modal-close:hover{color:var(--ink);}
+.modal{background:var(–paper);border:1px solid var(–border);border-radius:6px;width:100%;max-width:700px;box-shadow:0 12px 50px rgba(0,0,0,0.7);margin:auto;}
+.modal-header{padding:14px 20px 12px;border-bottom:1px solid var(–border);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:var(–paper);z-index:1;}
+.modal-header h2{font-family:‘Fraunces’,serif;font-size:0.95rem;font-weight:600;color:var(–accent);}
+.modal-close{background:none;border:none;color:var(–muted);font-size:1.3rem;cursor:pointer;padding:0 4px;line-height:1;}
+.modal-close:hover{color:var(–ink);}
 .modal-body{padding:18px 20px;}
-.modal-footer{padding:12px 20px 16px;border-top:1px solid var(--border);display:flex;gap:8px;position:sticky;bottom:0;background:var(--paper);}
-.btn-save-edit{flex:1;padding:10px;background:#BB96E7;color:#0e0e12;border:none;border-radius:3px;font-family:'DM Mono',monospace;font-size:0.68rem;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;font-weight:700;transition:background 0.2s;}
+.modal-footer{padding:12px 20px 16px;border-top:1px solid var(–border);display:flex;gap:8px;position:sticky;bottom:0;background:var(–paper);}
+.btn-save-edit{flex:1;padding:10px;background:#BB96E7;color:#0e0e12;border:none;border-radius:3px;font-family:‘DM Mono’,monospace;font-size:0.68rem;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;font-weight:700;transition:background 0.2s;}
 .btn-save-edit:hover{background:#c9a8f0;}
-.btn-cancel-edit{padding:10px 20px;background:none;border:1px solid var(--border);border-radius:3px;color:var(--muted);font-family:'DM Mono',monospace;font-size:0.68rem;cursor:pointer;transition:all 0.15s;}
-.btn-cancel-edit:hover{border-color:var(--muted);color:var(--ink);}
+.btn-cancel-edit{padding:10px 20px;background:none;border:1px solid var(–border);border-radius:3px;color:var(–muted);font-family:‘DM Mono’,monospace;font-size:0.68rem;cursor:pointer;transition:all 0.15s;}
+.btn-cancel-edit:hover{border-color:var(–muted);color:var(–ink);}
 
 .stats-type-toggle{display:flex;gap:7px;margin-bottom:16px;}
-.stats-toggle-btn{padding:7px 18px;border-radius:3px;border:1px solid var(--border);background:var(--paper);font-family:'DM Mono',monospace;font-size:0.62rem;cursor:pointer;color:var(--muted);transition:all 0.15s;letter-spacing:0.06em;text-transform:uppercase;}
-.stats-toggle-btn.all.active{background:var(--accent-light);border-color:var(--accent);color:var(--accent);}
-.stats-toggle-btn.sim.active{background:var(--sim-light);border-color:var(--sim);color:var(--sim);}
-.stats-toggle-btn.live.active{background:var(--live-light);border-color:var(--live);color:var(--live);}
+.stats-toggle-btn{padding:7px 18px;border-radius:3px;border:1px solid var(–border);background:var(–paper);font-family:‘DM Mono’,monospace;font-size:0.62rem;cursor:pointer;color:var(–muted);transition:all 0.15s;letter-spacing:0.06em;text-transform:uppercase;}
+.stats-toggle-btn.all.active{background:var(–accent-light);border-color:var(–accent);color:var(–accent);}
+.stats-toggle-btn.sim.active{background:var(–sim-light);border-color:var(–sim);color:var(–sim);}
+.stats-toggle-btn.live.active{background:var(–live-light);border-color:var(–live);color:var(–live);}
 
 .stats-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;margin-bottom:18px;}
-.stat-card{background:var(--paper);border:1px solid var(--border);border-radius:4px;padding:14px 16px;box-shadow:var(--shadow);}
-.stat-card .val{font-family:'Fraunces',serif;font-size:1.3rem;font-weight:600;line-height:1;margin-bottom:4px;}
+.stat-card{background:var(–paper);border:1px solid var(–border);border-radius:4px;padding:14px 16px;box-shadow:var(–shadow);}
+.stat-card .val{font-family:‘Fraunces’,serif;font-size:1.3rem;font-weight:600;line-height:1;margin-bottom:4px;}
 .stat-card .val.pos{color:#BB96E7;}
 .stat-card .val.neg{color:#CAC2D1;}
-.stat-card .lbl{font-size:0.56rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);}
+.stat-card .lbl{font-size:0.56rem;letter-spacing:0.08em;text-transform:uppercase;color:var(–muted);}
 
-.notion-section{background:var(--paper);border:1px solid var(--border);border-radius:4px;padding:18px 20px;box-shadow:var(--shadow);}
-.notion-section h3{font-family:'Fraunces',serif;font-size:0.9rem;font-weight:600;margin-bottom:4px;}
-.notion-section p{font-size:0.66rem;color:var(--muted);margin-bottom:14px;line-height:1.6;}
-.notion-block{background:#0a0a0e;border:1px solid var(--border);border-radius:3px;padding:13px 15px;margin-bottom:9px;font-size:0.68rem;line-height:1.9;color:var(--ink);}
-.notion-block strong{color:var(--accent);font-weight:500;}
+.notion-section{background:var(–paper);border:1px solid var(–border);border-radius:4px;padding:18px 20px;box-shadow:var(–shadow);}
+.notion-section h3{font-family:‘Fraunces’,serif;font-size:0.9rem;font-weight:600;margin-bottom:4px;}
+.notion-section p{font-size:0.66rem;color:var(–muted);margin-bottom:14px;line-height:1.6;}
+.notion-block{background:#0a0a0e;border:1px solid var(–border);border-radius:3px;padding:13px 15px;margin-bottom:9px;font-size:0.68rem;line-height:1.9;color:var(–ink);}
+.notion-block strong{color:var(–accent);font-weight:500;}
 
-.empty-state{text-align:center;padding:48px 20px;color:var(--muted);}
-.empty-state .big{font-family:'Fraunces',serif;font-size:1.7rem;font-weight:300;font-style:italic;margin-bottom:7px;opacity:0.25;}
+.empty-state{text-align:center;padding:48px 20px;color:var(–muted);}
+.empty-state .big{font-family:‘Fraunces’,serif;font-size:1.7rem;font-weight:300;font-style:italic;margin-bottom:7px;opacity:0.25;}
 .empty-state p{font-size:0.66rem;}
+
+/* CALENDAR */
+.cal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;background:var(–paper);border:1px solid var(–border);border-radius:5px;padding:12px 18px;}
+.cal-month-label{font-family:‘Fraunces’,serif;font-size:1.1rem;font-weight:600;letter-spacing:-0.01em;}
+.cal-nav-btn{background:none;border:1px solid var(–border);border-radius:3px;color:var(–muted);padding:5px 12px;cursor:pointer;font-size:0.75rem;transition:all 0.15s;}
+.cal-nav-btn:hover{border-color:var(–accent);color:var(–accent);}
+.cal-legend{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:14px;padding:10px 14px;background:var(–paper);border:1px solid var(–border);border-radius:4px;}
+.cal-legend-item{display:flex;align-items:center;gap:6px;font-size:0.62rem;color:var(–muted);}
+.cal-sym{font-size:0.75rem;font-weight:700;line-height:1;}
+.sim-sym{color:#CAC2D1;}
+.live-sym{color:#BB96E7;}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-bottom:2px;}
+.cal-dow{text-align:center;font-size:0.55rem;letter-spacing:0.08em;text-transform:uppercase;color:var(–muted);padding:6px 0;}
+.cal-days{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;}
+.cal-day{background:var(–paper);border:1px solid var(–border);border-radius:4px;min-height:80px;padding:6px;cursor:pointer;transition:all 0.15s;position:relative;overflow:hidden;}
+.cal-day:hover{border-color:var(–accent);box-shadow:0 0 0 1px var(–accent);}
+.cal-day.empty{background:transparent;border-color:transparent;cursor:default;}
+.cal-day.empty:hover{border-color:transparent;box-shadow:none;}
+.cal-day.today{border-color:var(–accent);}
+.cal-day.profit-day{border-left:2px solid #BB96E7;}
+.cal-day.loss-day{border-left:2px solid #CAC2D1;}
+.cal-day-num{font-size:0.65rem;color:var(–muted);margin-bottom:4px;font-weight:500;}
+.cal-day.today .cal-day-num{color:var(–accent);font-weight:700;}
+.cal-day-pnl{font-family:‘Fraunces’,serif;font-size:0.72rem;font-weight:600;line-height:1;margin-bottom:4px;}
+.cal-day-pnl.pos{color:#BB96E7;}
+.cal-day-pnl.neg{color:#CAC2D1;}
+.cal-day-trades{display:flex;flex-wrap:wrap;gap:2px;margin-top:3px;}
+.cal-trade-dot{font-size:0.65rem;font-weight:700;line-height:1;padding:1px 2px;}
+.cal-trade-dot.sim-dot{color:#CAC2D1;}
+.cal-trade-dot.live-dot{color:#BB96E7;}
+.cal-trade-dot.win{opacity:1;}
+.cal-trade-dot.loss{opacity:0.5;}
+.cal-month-total{display:flex;gap:12px;flex-wrap:wrap;margin-top:14px;padding:12px 16px;background:var(–paper);border:1px solid var(–border);border-radius:4px;}
+.cal-total-item{display:flex;flex-direction:column;gap:3px;}
+.cal-total-val{font-family:‘Fraunces’,serif;font-size:1rem;font-weight:600;}
+.cal-total-val.pos{color:#BB96E7;}
+.cal-total-val.neg{color:#CAC2D1;}
+.cal-total-val.sim-c{color:#CAC2D1;}
+.cal-total-val.live-c{color:#BB96E7;}
+.cal-total-lbl{font-size:0.55rem;letter-spacing:0.08em;text-transform:uppercase;color:var(–muted);}
+.cal-detail{background:var(–paper);border:1px solid var(–border);border-radius:5px;padding:16px;margin-top:14px;box-shadow:var(–shadow);}
+.cal-detail-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid var(–border);}
+.cal-detail-header span{font-family:‘Fraunces’,serif;font-size:0.9rem;font-weight:600;color:var(–accent);}
+.cal-day-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:3px;}
+.cal-note-dot{font-size:0.6rem;line-height:1;}
+.cal-trade-count{font-size:0.55rem;color:var(–muted);letter-spacing:0.04em;margin-bottom:2px;}
+.cal-detail-trade{background:#0a0a0e;border:1px solid var(–border);border-radius:3px;padding:10px 12px;margin-bottom:8px;display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+.cal-detail-trade:last-child{margin-bottom:0;}
+.cal-detail-left{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.cal-detail-sym{font-size:0.9rem;font-weight:700;}
+.cal-detail-sym.sim-s{color:#CAC2D1;}
+.cal-detail-sym.live-s{color:#BB96E7;}
+.cal-detail-info{font-size:0.65rem;color:var(–muted);}
+.cal-detail-pnl{font-family:‘Fraunces’,serif;font-size:0.85rem;font-weight:600;}
+.cal-detail-pnl.pos{color:#BB96E7;}
+.cal-detail-pnl.neg{color:#CAC2D1;}
+
 @keyframes slideIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
 .trade-card{animation:slideIn 0.22s ease;}
 </style>
+
 </head>
 <body>
 <div class="app">
 
 <!-- EDIT MODAL -->
+
 <div class="modal-overlay" id="edit-modal">
   <div class="modal">
     <div class="modal-header">
@@ -194,57 +254,60 @@ main{padding:18px 24px;max-width:860px;margin:0 auto;}
         <button class="type-btn live" id="edit-type-live" onclick="selectEditType('live')" style="flex:1;padding:10px;border:none;background:none;font-family:'DM Mono',monospace;font-size:0.66rem;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;color:var(--muted);">🔴 Live Trade</button>
       </div>
 
-      <div class="form-grid">
-        <div class="field"><label>Date & Time</label><input type="datetime-local" id="e-datetime"></div>
-        <div class="field"><label>Direction</label><div class="toggle-group"><button class="toggle-btn call" onclick="selectEditToggle('direction','call',this)">📈 CALL</button><button class="toggle-btn put" onclick="selectEditToggle('direction','put',this)">📉 PUT</button></div></div>
-      </div>
-      <div class="form-grid form-grid-3">
-        <div class="field"><label>Entry Price ($)</label><input type="number" id="e-entry" step="0.01"></div>
-        <div class="field"><label>Exit Price ($)</label><input type="number" id="e-exit" step="0.01"></div>
-        <div class="field"><label>Contracts</label><input type="number" id="e-contracts" min="1"></div>
-      </div>
-      <div class="form-grid form-grid-3">
-        <div class="field"><label>Strike Price</label><input type="number" id="e-strike" step="0.5"></div>
-        <div class="field"><label>Expiration</label><select id="e-expiry"><option value="0DTE">0DTE</option><option value="Next Day">Next Day</option><option value="2DTE">2DTE</option></select></div>
-        <div class="field"><label>Session</label><select id="e-session"><option value="9:30-11:30">9:30 – 11:30 AM</option><option value="2:00-3:30">2:00 – 3:30 PM</option><option value="Other">Other</option></select></div>
-      </div>
-      <div class="form-grid">
-        <div class="field"><label>Stop Loss</label><input type="number" id="e-sl" step="0.01"></div>
-        <div class="field"><label>Target</label><input type="number" id="e-target" step="0.01"></div>
-      </div>
-      <div class="form-grid">
-        <div class="field"><label>Result</label><div class="toggle-group"><button class="toggle-btn win" onclick="selectEditToggle('outcome','win',this)">WIN</button><button class="toggle-btn loss" onclick="selectEditToggle('outcome','loss',this)">LOSS</button><button class="toggle-btn be" onclick="selectEditToggle('outcome','be',this)">B/E</button></div></div>
-        <div class="field"><label>P&L (auto-calc)</label><input type="text" id="e-pnl" readonly style="background:#0a0a0e;color:var(--muted)"></div>
-      </div>
+```
+  <div class="form-grid">
+    <div class="field"><label>Date & Time</label><input type="datetime-local" id="e-datetime"></div>
+    <div class="field"><label>Direction</label><div class="toggle-group"><button class="toggle-btn call" onclick="selectEditToggle('direction','call',this)">📈 CALL</button><button class="toggle-btn put" onclick="selectEditToggle('direction','put',this)">📉 PUT</button></div></div>
+  </div>
+  <div class="form-grid form-grid-3">
+    <div class="field"><label>Entry Price ($)</label><input type="number" id="e-entry" step="0.01"></div>
+    <div class="field"><label>Exit Price ($)</label><input type="number" id="e-exit" step="0.01"></div>
+    <div class="field"><label>Contracts</label><input type="number" id="e-contracts" min="1"></div>
+  </div>
+  <div class="form-grid form-grid-3">
+    <div class="field"><label>Strike Price</label><input type="number" id="e-strike" step="0.5"></div>
+    <div class="field"><label>Expiration</label><select id="e-expiry"><option value="0DTE">0DTE</option><option value="Next Day">Next Day</option><option value="2DTE">2DTE</option></select></div>
+    <div class="field"><label>Session</label><select id="e-session"><option value="9:30-11:30">9:30 – 11:30 AM</option><option value="2:00-3:30">2:00 – 3:30 PM</option><option value="Other">Other</option></select></div>
+  </div>
+  <div class="form-grid">
+    <div class="field"><label>Stop Loss</label><input type="number" id="e-sl" step="0.01"></div>
+    <div class="field"><label>Target</label><input type="number" id="e-target" step="0.01"></div>
+  </div>
+  <div class="form-grid">
+    <div class="field"><label>Result</label><div class="toggle-group"><button class="toggle-btn win" onclick="selectEditToggle('outcome','win',this)">WIN</button><button class="toggle-btn loss" onclick="selectEditToggle('outcome','loss',this)">LOSS</button><button class="toggle-btn be" onclick="selectEditToggle('outcome','be',this)">B/E</button></div></div>
+    <div class="field"><label>P&L (auto-calc)</label><input type="text" id="e-pnl" readonly style="background:#0a0a0e;color:var(--muted)"></div>
+  </div>
 
-      <div class="section-label" style="margin-top:14px;">Psychology</div>
-      <div class="field" style="margin-bottom:12px;">
-        <label>Emotional State</label>
-        <div class="emotion-row" id="edit-emotion-row">
-          <button class="emotion-btn" onclick="selectEditEmotion(this)">Calm ✓</button>
-          <button class="emotion-btn" onclick="selectEditEmotion(this)">Hesitant</button>
-          <button class="emotion-btn" onclick="selectEditEmotion(this)">Confident</button>
-          <button class="emotion-btn" onclick="selectEditEmotion(this)">Anxious</button>
-          <button class="emotion-btn" onclick="selectEditEmotion(this)">FOMO</button>
-          <button class="emotion-btn" onclick="selectEditEmotion(this)">Rushed</button>
-          <button class="emotion-btn" onclick="selectEditEmotion(this)">Uncertain</button>
-        </div>
-      </div>
+  <div class="section-label" style="margin-top:14px;">Psychology</div>
+  <div class="field" style="margin-bottom:12px;">
+    <label>Emotional State</label>
+    <div class="emotion-row" id="edit-emotion-row">
+      <button class="emotion-btn" onclick="selectEditEmotion(this)">Calm ✓</button>
+      <button class="emotion-btn" onclick="selectEditEmotion(this)">Hesitant</button>
+      <button class="emotion-btn" onclick="selectEditEmotion(this)">Confident</button>
+      <button class="emotion-btn" onclick="selectEditEmotion(this)">Anxious</button>
+      <button class="emotion-btn" onclick="selectEditEmotion(this)">FOMO</button>
+      <button class="emotion-btn" onclick="selectEditEmotion(this)">Rushed</button>
+      <button class="emotion-btn" onclick="selectEditEmotion(this)">Uncertain</button>
+    </div>
+  </div>
 
-      <div class="section-label">Notes</div>
-      <div class="form-grid">
-        <div class="field"><label>Why I Took This Trade</label><textarea id="e-why"></textarea></div>
-        <div class="field"><label>What I Did Well</label><textarea id="e-well"></textarea></div>
-      </div>
-      <div class="form-grid">
-        <div class="field"><label>What I Could Improve</label><textarea id="e-improve"></textarea></div>
-        <div class="field"><label>Lesson Learned</label><textarea id="e-lesson"></textarea></div>
-      </div>
-    </div>
-    <div class="modal-footer">
-      <button class="btn-cancel-edit" onclick="closeEditModal()">Cancel</button>
-      <button class="btn-save-edit" onclick="saveEdit()">Save Changes →</button>
-    </div>
+  <div class="section-label">Notes</div>
+  <div class="form-grid">
+    <div class="field"><label>Why I Took This Trade</label><textarea id="e-why"></textarea></div>
+    <div class="field"><label>What I Did Well</label><textarea id="e-well"></textarea></div>
+  </div>
+  <div class="form-grid">
+    <div class="field"><label>What I Could Improve</label><textarea id="e-improve"></textarea></div>
+    <div class="field"><label>Lesson Learned</label><textarea id="e-lesson"></textarea></div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button class="btn-cancel-edit" onclick="closeEditModal()">Cancel</button>
+  <button class="btn-save-edit" onclick="saveEdit()">Save Changes →</button>
+</div>
+```
+
   </div>
 </div>
 
@@ -265,12 +328,13 @@ main{padding:18px 24px;max-width:860px;margin:0 auto;}
   <button class="nav-btn active" onclick="showView('log',this)">Log Trade</button>
   <button class="nav-btn" onclick="showView('history',this)">History</button>
   <button class="nav-btn" onclick="showView('stats',this)">Stats</button>
-  <button class="nav-btn" onclick="showView('notion',this)">Notion</button>
+  <button class="nav-btn" onclick="showView('calendar',this)">Calendar</button>
 </nav>
 
 <main>
 
 <!-- LOG TRADE -->
+
 <div class="view active" id="view-log">
   <div class="type-toggle">
     <button class="type-btn sim active" id="type-sim" onclick="selectType('sim')">📊 Simulation</button>
@@ -308,61 +372,65 @@ main{padding:18px 24px;max-width:860px;margin:0 auto;}
         </div>
       </div>
 
-      <div class="section-label">Trade Details</div>
-      <div class="form-grid">
-        <div class="field"><label>Date & Time</label><input type="datetime-local" id="f-datetime"></div>
-        <div class="field"><label>Direction</label><div class="toggle-group"><button class="toggle-btn call" onclick="selectToggle('direction','call',this)">📈 CALL</button><button class="toggle-btn put" onclick="selectToggle('direction','put',this)">📉 PUT</button></div></div>
-      </div>
-      <div class="form-grid form-grid-3">
-        <div class="field"><label>Entry Price ($)</label><input type="number" id="f-entry" placeholder="0.00" step="0.01"></div>
-        <div class="field"><label>Exit Price ($)</label><input type="number" id="f-exit" placeholder="0.00" step="0.01"></div>
-        <div class="field"><label>Contracts</label><input type="number" id="f-contracts" placeholder="1" min="1" value="1"></div>
-      </div>
-      <div class="form-grid form-grid-3">
-        <div class="field"><label>Strike Price</label><input type="number" id="f-strike" placeholder="580.00" step="0.5"></div>
-        <div class="field"><label>Expiration</label><select id="f-expiry"><option value="0DTE">0DTE</option><option value="Next Day">Next Day</option><option value="2DTE">2DTE</option></select></div>
-        <div class="field"><label>Session</label><select id="f-session"><option value="9:30-11:30">9:30 – 11:30 AM</option><option value="2:00-3:30">2:00 – 3:30 PM</option><option value="Other">Other</option></select></div>
-      </div>
-      <div class="form-grid">
-        <div class="field"><label>Stop Loss (QQQ price)</label><input type="number" id="f-sl" placeholder="0.00" step="0.01"></div>
-        <div class="field"><label>Target (QQQ price)</label><input type="number" id="f-target" placeholder="0.00" step="0.01"></div>
-      </div>
+```
+  <div class="section-label">Trade Details</div>
+  <div class="form-grid">
+    <div class="field"><label>Date & Time</label><input type="datetime-local" id="f-datetime"></div>
+    <div class="field"><label>Direction</label><div class="toggle-group"><button class="toggle-btn call" onclick="selectToggle('direction','call',this)">📈 CALL</button><button class="toggle-btn put" onclick="selectToggle('direction','put',this)">📉 PUT</button></div></div>
+  </div>
+  <div class="form-grid form-grid-3">
+    <div class="field"><label>Entry Price ($)</label><input type="number" id="f-entry" placeholder="0.00" step="0.01"></div>
+    <div class="field"><label>Exit Price ($)</label><input type="number" id="f-exit" placeholder="0.00" step="0.01"></div>
+    <div class="field"><label>Contracts</label><input type="number" id="f-contracts" placeholder="1" min="1" value="1"></div>
+  </div>
+  <div class="form-grid form-grid-3">
+    <div class="field"><label>Strike Price</label><input type="number" id="f-strike" placeholder="580.00" step="0.5"></div>
+    <div class="field"><label>Expiration</label><select id="f-expiry"><option value="0DTE">0DTE</option><option value="Next Day">Next Day</option><option value="2DTE">2DTE</option></select></div>
+    <div class="field"><label>Session</label><select id="f-session"><option value="9:30-11:30">9:30 – 11:30 AM</option><option value="2:00-3:30">2:00 – 3:30 PM</option><option value="Other">Other</option></select></div>
+  </div>
+  <div class="form-grid">
+    <div class="field"><label>Stop Loss (QQQ price)</label><input type="number" id="f-sl" placeholder="0.00" step="0.01"></div>
+    <div class="field"><label>Target (QQQ price)</label><input type="number" id="f-target" placeholder="0.00" step="0.01"></div>
+  </div>
 
-      <div class="section-label">Outcome</div>
-      <div class="form-grid">
-        <div class="field"><label>Result</label><div class="toggle-group"><button class="toggle-btn win" onclick="selectToggle('outcome','win',this)">WIN</button><button class="toggle-btn loss" onclick="selectToggle('outcome','loss',this)">LOSS</button><button class="toggle-btn be" onclick="selectToggle('outcome','be',this)">B/E</button></div></div>
-        <div class="field"><label>P&L (auto-calc)</label><input type="text" id="f-pnl" placeholder="$0.00" readonly style="background:#0a0a0e;color:var(--muted)"></div>
-      </div>
+  <div class="section-label">Outcome</div>
+  <div class="form-grid">
+    <div class="field"><label>Result</label><div class="toggle-group"><button class="toggle-btn win" onclick="selectToggle('outcome','win',this)">WIN</button><button class="toggle-btn loss" onclick="selectToggle('outcome','loss',this)">LOSS</button><button class="toggle-btn be" onclick="selectToggle('outcome','be',this)">B/E</button></div></div>
+    <div class="field"><label>P&L (auto-calc)</label><input type="text" id="f-pnl" placeholder="$0.00" readonly style="background:#0a0a0e;color:var(--muted)"></div>
+  </div>
 
-      <div class="section-label">Psychology</div>
-      <div class="field" style="margin-bottom:12px">
-        <label>Emotional State Before Trade</label>
-        <div class="emotion-row">
-          <button class="emotion-btn" onclick="selectEmotion(this)">Calm ✓</button>
-          <button class="emotion-btn" onclick="selectEmotion(this)">Hesitant</button>
-          <button class="emotion-btn" onclick="selectEmotion(this)">Confident</button>
-          <button class="emotion-btn" onclick="selectEmotion(this)">Anxious</button>
-          <button class="emotion-btn" onclick="selectEmotion(this)">FOMO</button>
-          <button class="emotion-btn" onclick="selectEmotion(this)">Rushed</button>
-          <button class="emotion-btn" onclick="selectEmotion(this)">Uncertain</button>
-        </div>
-      </div>
-
-      <div class="section-label">Notes & Review</div>
-      <div class="form-grid">
-        <div class="field"><label>Why I Took This Trade</label><textarea id="f-why" placeholder="Zone valid, trend line confirmed bearish bias, confluence at 584..."></textarea></div>
-        <div class="field"><label>What I Did Well</label><textarea id="f-well" placeholder="Waited for full candle close. Did not chase..."></textarea></div>
-      </div>
-      <div class="form-grid">
-        <div class="field"><label>What I Could Improve</label><textarea id="f-improve" placeholder="Exited early out of fear..."></textarea></div>
-        <div class="field"><label>Lesson Learned</label><textarea id="f-lesson" placeholder="Trust the confluence..."></textarea></div>
-      </div>
-      <button class="btn-primary" onclick="saveTrade()">Save Trade Entry →</button>
+  <div class="section-label">Psychology</div>
+  <div class="field" style="margin-bottom:12px">
+    <label>Emotional State Before Trade</label>
+    <div class="emotion-row">
+      <button class="emotion-btn" onclick="selectEmotion(this)">Calm ✓</button>
+      <button class="emotion-btn" onclick="selectEmotion(this)">Hesitant</button>
+      <button class="emotion-btn" onclick="selectEmotion(this)">Confident</button>
+      <button class="emotion-btn" onclick="selectEmotion(this)">Anxious</button>
+      <button class="emotion-btn" onclick="selectEmotion(this)">FOMO</button>
+      <button class="emotion-btn" onclick="selectEmotion(this)">Rushed</button>
+      <button class="emotion-btn" onclick="selectEmotion(this)">Uncertain</button>
     </div>
+  </div>
+
+  <div class="section-label">Notes & Review</div>
+  <div class="form-grid">
+    <div class="field"><label>Why I Took This Trade</label><textarea id="f-why" placeholder="Zone valid, trend line confirmed bearish bias, confluence at 584..."></textarea></div>
+    <div class="field"><label>What I Did Well</label><textarea id="f-well" placeholder="Waited for full candle close. Did not chase..."></textarea></div>
+  </div>
+  <div class="form-grid">
+    <div class="field"><label>What I Could Improve</label><textarea id="f-improve" placeholder="Exited early out of fear..."></textarea></div>
+    <div class="field"><label>Lesson Learned</label><textarea id="f-lesson" placeholder="Trust the confluence..."></textarea></div>
+  </div>
+  <button class="btn-primary" onclick="saveTrade()">Save Trade Entry →</button>
+</div>
+```
+
   </div>
 </div>
 
 <!-- HISTORY -->
+
 <div class="view" id="view-history">
   <div class="filter-row">
     <button class="filter-btn active" onclick="setFilter('all',this)">All Trades</button>
@@ -373,6 +441,7 @@ main{padding:18px 24px;max-width:860px;margin:0 auto;}
 </div>
 
 <!-- STATS -->
+
 <div class="view" id="view-stats">
   <div class="stats-type-toggle">
     <button class="stats-toggle-btn all active" onclick="setStatsType('all',this)">All</button>
@@ -404,36 +473,49 @@ main{padding:18px 24px;max-width:860px;margin:0 auto;}
   </div>
 </div>
 
-<!-- NOTION -->
-<div class="view" id="view-notion">
-  <div class="notion-section">
-    <h3>Notion Template</h3>
-    <p>Create a database called "Trade Journal" in Notion. Each row = one trade.</p>
-    <div class="section-label">Database Properties</div>
-    <div class="notion-block">
-      <strong>📅 Date</strong> → Date<br>
-      <strong>🔴 Trade Type</strong> → Select: SIMULATION / LIVE<br>
-      <strong>⏰ Session</strong> → Select: 9:30-11:30 AM / 2:00-3:30 PM / Other<br>
-      <strong>📈 Direction</strong> → Select: CALL / PUT<br>
-      <strong>🎯 Strike</strong> → Number &nbsp;|&nbsp; <strong>📆 Expiry</strong> → Select: 0DTE / Next Day / 2DTE<br>
-      <strong>💵 Entry</strong> → Number &nbsp;|&nbsp; <strong>💵 Exit</strong> → Number<br>
-      <strong>🔢 Contracts</strong> → Number &nbsp;|&nbsp; <strong>🛑 Stop Loss</strong> → Number &nbsp;|&nbsp; <strong>🎯 Target</strong> → Number<br>
-      <strong>✅ Result</strong> → Select: WIN / LOSS / BREAKEVEN<br>
-      <strong>💰 P&L</strong> → Formula: (Exit - Entry) × Contracts × 100<br>
-      <strong>🧠 Emotion</strong> → Select: Calm / Hesitant / Confident / Anxious / FOMO / Rushed<br>
-      <strong>📋 Checklist Score</strong> → Number (out of 12)
+<!-- CALENDAR -->
+
+<div class="view" id="view-calendar">
+  <div class="cal-header">
+    <button class="cal-nav-btn" onclick="changeMonth(-1)">◀</button>
+    <div class="cal-month-label" id="cal-month-label"></div>
+    <button class="cal-nav-btn" onclick="changeMonth(1)">▶</button>
+  </div>
+
+  <div class="cal-legend">
+    <div class="cal-legend-item"><span class="cal-sym sim-sym">✕</span> Simulation</div>
+    <div class="cal-legend-item"><span class="cal-sym live-sym">○</span> Live</div>
+    <div class="cal-legend-item"><span style="color:#BB96E7;font-size:0.65rem;font-weight:700">+$</span> Profit day</div>
+    <div class="cal-legend-item"><span style="color:#CAC2D1;font-size:0.65rem;font-weight:700">-$</span> Loss day</div>
+    <div class="cal-legend-item"><span style="color:var(--accent);font-size:0.65rem;">📝</span> Has notes</div>
+  </div>
+
+  <div class="cal-grid">
+    <div class="cal-dow">Sun</div><div class="cal-dow">Mon</div><div class="cal-dow">Tue</div>
+    <div class="cal-dow">Wed</div><div class="cal-dow">Thu</div><div class="cal-dow">Fri</div><div class="cal-dow">Sat</div>
+  </div>
+  <div class="cal-days" id="cal-days"></div>
+  <div id="cal-month-totals"></div>
+</div>
+
+<!-- DAY DETAIL MODAL -->
+
+<div class="modal-overlay" id="day-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 id="day-modal-title">March 25</h2>
+      <button class="modal-close" onclick="closeDayModal()">✕</button>
     </div>
-    <div class="section-label">Page Template</div>
-    <div class="notion-block">
-      <strong>## Step 1 — 1H Context</strong><br>
-      ☐ Trend direction ☐ 1H trend line ☐ 1H zone marked<br><br>
-      <strong>## Step 2 — 5M Setup</strong><br>
-      ☐ 5M zone ☐ 5M trend line ☐ Confluence ☐ Price retesting<br><br>
-      <strong>## Step 3 — Entry Trigger</strong><br>
-      ☐ Rejection signal ☐ Confirmation candle closed ☐ Not in chop<br><br>
-      <strong>## Step 4 — Risk</strong><br>
-      ☐ Stop loss defined ☐ Target defined (min 1:1.5 R:R)<br><br>
-      <strong>## Why I Took This / What I Did Well / Improve / Lesson / Chart Screenshot</strong>
+    <div class="modal-body" id="day-modal-body"></div>
+    <div class="modal-footer" style="flex-direction:column;gap:10px;">
+      <div style="width:100%">
+        <div class="section-label" style="margin-top:0;margin-bottom:8px;">📝 Daily Notes</div>
+        <textarea id="day-note-input" placeholder="Market conditions today, what you observed, mindset, anything relevant..." style="width:100%;background:#0a0a0e;border:1px solid var(--border);border-radius:3px;padding:10px 12px;font-family:'DM Mono',monospace;font-size:0.72rem;color:var(--ink);outline:none;resize:vertical;min-height:90px;line-height:1.6;"></textarea>
+      </div>
+      <div style="display:flex;gap:8px;width:100%">
+        <button class="btn-cancel-edit" onclick="closeDayModal()">Close</button>
+        <button class="btn-save-edit" onclick="saveDayNote()">Save Note →</button>
+      </div>
     </div>
   </div>
 </div>
@@ -798,12 +880,199 @@ function showView(n,btn){
   if(btn) btn.classList.add('active');
   if(n==='stats') updateStats();
   if(n==='history') renderHistory();
+  if(n==='calendar') renderCalendar();
 }
 
 // close modal on overlay click
 document.getElementById('edit-modal').addEventListener('click', function(e){
   if(e.target===this) closeEditModal();
 });
-</script>
+
+// --- CALENDAR ---
+let calYear = new Date().getFullYear();
+let calMonth = new Date().getMonth();
+let calNotes = JSON.parse(localStorage.getItem('karli-day-notes') || '{}');
+let activeDayKey = null;
+
+function changeMonth(dir){
+  calMonth += dir;
+  if(calMonth > 11){ calMonth=0; calYear++; }
+  if(calMonth < 0){ calMonth=11; calYear--; }
+  renderCalendar();
+}
+
+function getDayKey(year, month, day){ return `${year}-${String(month+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`; }
+
+function renderCalendar(){
+  const monthNames=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  document.getElementById('cal-month-label').textContent=`${monthNames[calMonth]} ${calYear}`;
+
+  const firstDay=new Date(calYear,calMonth,1).getDay();
+  const daysInMonth=new Date(calYear,calMonth+1,0).getDate();
+  const today=new Date();
+
+  // Build day -> trades map
+  const dayMap={};
+  trades.forEach(t=>{
+    if(!t.datetime) return;
+    const d=new Date(t.datetime);
+    if(d.getFullYear()===calYear && d.getMonth()===calMonth){
+      const day=d.getDate();
+      if(!dayMap[day]) dayMap[day]=[];
+      dayMap[day].push(t);
+    }
+  });
+
+  const container=document.getElementById('cal-days');
+  let html='';
+  for(let i=0;i<firstDay;i++) html+=`<div class="cal-day empty"></div>`;
+
+  for(let day=1;day<=daysInMonth;day++){
+    const isToday=today.getDate()===day && today.getMonth()===calMonth && today.getFullYear()===calYear;
+    const dayTrades=dayMap[day]||[];
+    const totalPnl=dayTrades.reduce((s,t)=>s+(t.pnl||0),0);
+    const hasTrades=dayTrades.length>0;
+    const pnlClass=totalPnl>0?'pos':totalPnl<0?'neg':'';
+    const dayClass=hasTrades?(totalPnl>=0?'profit-day':'loss-day'):'';
+    const dayKey=getDayKey(calYear,calMonth,day);
+    const hasNote=!!calNotes[dayKey];
+
+    // Count sim vs live
+    const simCount=dayTrades.filter(t=>(t.tradeType||'sim')==='sim').length;
+    const liveCount=dayTrades.filter(t=>t.tradeType==='live').length;
+
+    // Trade symbols row
+    let symsHtml='';
+    dayTrades.forEach(t=>{
+      const sym=t.tradeType==='live'?'○':'✕';
+      const sc=t.tradeType==='live'?'live-dot':'sim-dot';
+      const wl=t.pnl>0?'win':'loss';
+      symsHtml+=`<span class="cal-trade-dot ${sc} ${wl}">${sym}</span>`;
+    });
+
+    html+=`<div class="cal-day ${isToday?'today':''} ${dayClass}" onclick="openDayModal(${day})">
+      <div class="cal-day-top">
+        <span class="cal-day-num">${day}</span>
+        ${hasNote?`<span class="cal-note-dot" title="Has notes">📝</span>`:''}
+      </div>
+      ${hasTrades?`<div class="cal-day-pnl ${pnlClass}">${totalPnl>0?'+':''}$${Math.abs(totalPnl).toFixed(0)}</div>`:''}
+      ${hasTrades?`<div class="cal-trade-count">${dayTrades.length} trade${dayTrades.length>1?'s':''}</div>`:''}
+      <div class="cal-day-trades">${symsHtml}</div>
+    </div>`;
+  }
+
+  container.innerHTML=html;
+
+  // Month totals bar
+  const monthTrades=Object.values(dayMap).flat();
+  const simTrades=monthTrades.filter(t=>(t.tradeType||'sim')==='sim');
+  const liveTrades=monthTrades.filter(t=>t.tradeType==='live');
+  const totalPnl=monthTrades.reduce((s,t)=>s+(t.pnl||0),0);
+  const simPnl=simTrades.reduce((s,t)=>s+(t.pnl||0),0);
+  const livePnl=liveTrades.reduce((s,t)=>s+(t.pnl||0),0);
+  const wins=monthTrades.filter(t=>t.outcome==='win').length;
+  const wr=monthTrades.length?Math.round(wins/monthTrades.length*100):0;
+  const tradingDays=Object.keys(dayMap).length;
+
+  document.getElementById('cal-month-totals').innerHTML=`
+    <div class="cal-month-total">
+      <div class="cal-total-item"><div class="cal-total-val ${totalPnl>=0?'pos':'neg'}">${totalPnl>=0?'+':''}$${Math.abs(totalPnl).toFixed(0)}</div><div class="cal-total-lbl">Month P&L</div></div>
+      <div class="cal-total-item"><div class="cal-total-val sim-c">${simPnl>=0?'+':''}$${Math.abs(simPnl).toFixed(0)}</div><div class="cal-total-lbl">✕ Sim</div></div>
+      <div class="cal-total-item"><div class="cal-total-val live-c">${livePnl>=0?'+':''}$${Math.abs(livePnl).toFixed(0)}</div><div class="cal-total-lbl">○ Live</div></div>
+      <div class="cal-total-item"><div class="cal-total-val">${monthTrades.length}</div><div class="cal-total-lbl">Trades</div></div>
+      <div class="cal-total-item"><div class="cal-total-val">${wr}%</div><div class="cal-total-lbl">Win Rate</div></div>
+      <div class="cal-total-item"><div class="cal-total-val">${tradingDays}</div><div class="cal-total-lbl">Trading Days</div></div>
+    </div>`;
+}
+
+function openDayModal(day){
+  const monthNames=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  activeDayKey=getDayKey(calYear,calMonth,day);
+  document.getElementById('day-modal-title').textContent=`${monthNames[calMonth]} ${day}, ${calYear}`;
+
+  // Trades for this day
+  const dayTrades=trades.filter(t=>{
+    if(!t.datetime) return false;
+    const d=new Date(t.datetime);
+    return d.getFullYear()===calYear && d.getMonth()===calMonth && d.getDate()===day;
+  });
+
+  const oLbl={win:'WIN',loss:'LOSS',be:'B/E'};
+  let html='';
+
+  if(dayTrades.length){
+    html+=`<div class="section-label" style="margin-top:0;margin-bottom:10px;">Trades (${dayTrades.length})</div>`;
+    dayTrades.forEach(t=>{
+      const isLive=t.tradeType==='live';
+      const sym=isLive?'○':'✕';
+      const symClass=isLive?'live-s':'sim-s';
+      const pnlClass=t.pnl>0?'pos':'neg';
+      const pnlStr=t.pnl?(t.pnl>0?'+':'')+'$'+Math.abs(t.pnl).toFixed(0):'$0';
+      const time=t.datetime?new Date(t.datetime).toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'}):'';
+      const dir=t.direction?.toUpperCase()||'—';
+      const dirColor=t.direction==='call'?'#BB96E7':'#CAC2D1';
+      html+=`<div class="cal-detail-trade">
+        <div class="cal-detail-left">
+          <span class="cal-detail-sym ${symClass}" style="font-size:1.1rem;">${sym}</span>
+          <div class="cal-detail-info">
+            <div style="display:flex;align-items:center;gap:7px;flex-wrap:wrap;">
+              <span style="color:var(--ink);font-size:0.7rem;font-weight:500;">${isLive?'LIVE':'SIM'}</span>
+              <span style="color:${dirColor};font-size:0.7rem;font-weight:600;">${dir}</span>
+              <span style="color:var(--muted);font-size:0.65rem;">QQQ $${t.strike||''} ${t.expiry||''}</span>
+              ${t.outcome?`<span class="trade-badge ${t.outcome==='win'?'badge-win':t.outcome==='loss'?'badge-loss':'badge-be'}">${oLbl[t.outcome]}</span>`:''}
+            </div>
+            <div style="color:var(--muted);font-size:0.62rem;margin-top:2px;">${time}${t.session?' · '+t.session:''} · Entry $${t.entry||'—'} → Exit $${t.exit||'—'} · ${t.contracts} contract${t.contracts>1?'s':''}</div>
+            ${t.lesson?`<div style="color:var(--muted);font-size:0.62rem;font-style:italic;margin-top:3px;">💡 ${t.lesson}</div>`:''}
+          </div>
+        </div>
+        <div style="text-align:right;flex-shrink:0;">
+          <span class="cal-detail-pnl ${pnlClass}">${pnlStr}</span>
+          <div style="margin-top:4px;"><button onclick="openEditModal(${t.id});closeDayModal();" style="background:none;border:1px solid var(--border);border-radius:2px;color:var(--muted);font-family:'DM Mono',monospace;font-size:0.55rem;cursor:pointer;padding:2px 7px;letter-spacing:0.04em;">EDIT</button></div>
+        </div>
+      </div>`;
+    });
+
+    const dayTotal=dayTrades.reduce((s,t)=>s+(t.pnl||0),0);
+    const simTotal=dayTrades.filter(t=>(t.tradeType||'sim')==='sim').reduce((s,t)=>s+(t.pnl||0),0);
+    const liveTotal=dayTrades.filter(t=>t.tradeType==='live').reduce((s,t)=>s+(t.pnl||0),0);
+    const dayWins=dayTrades.filter(t=>t.outcome==='win').length;
+
+    html+=`<div style="display:flex;gap:16px;flex-wrap:wrap;margin-top:12px;padding:10px 14px;background:#0a0a0e;border:1px solid var(--border);border-radius:4px;">
+      <div><div style="font-family:'Fraunces',serif;font-size:1rem;font-weight:600;color:${dayTotal>=0?'#BB96E7':'#CAC2D1'}">${dayTotal>=0?'+':''}$${Math.abs(dayTotal).toFixed(0)}</div><div style="font-size:0.55rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-top:2px;">Day Total</div></div>
+      <div><div style="font-family:'Fraunces',serif;font-size:1rem;font-weight:600;color:#CAC2D1">${simTotal>=0?'+':''}$${Math.abs(simTotal).toFixed(0)}</div><div style="font-size:0.55rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-top:2px;">✕ Sim</div></div>
+      <div><div style="font-family:'Fraunces',serif;font-size:1rem;font-weight:600;color:#BB96E7">${liveTotal>=0?'+':''}$${Math.abs(liveTotal).toFixed(0)}</div><div style="font-size:0.55rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-top:2px;">○ Live</div></div>
+      <div><div style="font-family:'Fraunces',serif;font-size:1rem;font-weight:600;color:var(--ink)">${dayWins}/${dayTrades.length}</div><div style="font-size:0.55rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-top:2px;">Win/Total</div></div>
+    </div>`;
+  } else {
+    html+=`<div style="text-align:center;padding:24px 0;color:var(--muted);font-size:0.7rem;">No trades logged for this day.</div>`;
+  }
+
+  document.getElementById('day-modal-body').innerHTML=html;
+
+  // Load existing note
+  document.getElementById('day-note-input').value=calNotes[activeDayKey]||'';
+
+  document.getElementById('day-modal').classList.add('show');
+  document.body.style.overflow='hidden';
+}
+
+function closeDayModal(){
+  document.getElementById('day-modal').classList.remove('show');
+  document.body.style.overflow='';
+  activeDayKey=null;
+}
+
+function saveDayNote(){
+  if(!activeDayKey) return;
+  const note=document.getElementById('day-note-input').value.trim();
+  if(note){ calNotes[activeDayKey]=note; }
+  else { delete calNotes[activeDayKey]; }
+  localStorage.setItem('karli-day-notes',JSON.stringify(calNotes));
+  closeDayModal();
+  renderCalendar();
+}
+
+document.getElementById('day-modal').addEventListener('click',function(e){ if(e.target===this) closeDayModal(); });</script>
+
 </body>
 </html>
