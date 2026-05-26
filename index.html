@@ -765,7 +765,74 @@ main{position:relative;z-index:1;padding:14px 14px 0;}
   </div>
 </div>
 
-<!-- SPY MODAL -->
+<!-- EDIT TRADE MODAL -->
+<div class="modal-overlay" id="modal-edit">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-header">
+      <div class="modal-title" id="edit-modal-title">Edit Trade</div>
+    </div>
+    <div class="modal-body">
+      <div class="input-group">
+        <label class="input-label">Ticker Symbol</label>
+        <input class="input-field" type="text" id="edit-ticker" style="text-transform:uppercase;">
+      </div>
+      <div class="input-group">
+        <label class="input-label">Stage</label>
+        <select class="input-field" id="edit-stage">
+          <option value="watch">Watching — On My Radar</option>
+          <option value="setup">Setting Up — Flag Forming</option>
+          <option value="ready">Ready to Enter — Thin Day Confirmed</option>
+          <option value="active">Active Trade</option>
+        </select>
+      </div>
+      <div class="input-row">
+        <div class="input-group">
+          <label class="input-label">Current Price ($)</label>
+          <input class="input-field" type="number" id="edit-price" placeholder="175.00" step="0.01">
+        </div>
+        <div class="input-group">
+          <label class="input-label">ADR %</label>
+          <input class="input-field" type="number" id="edit-adr" placeholder="3.07" step="0.01">
+        </div>
+      </div>
+      <div id="edit-active-fields" style="display:none;">
+        <div class="input-row">
+          <div class="input-group">
+            <label class="input-label">Entry Contract Price ($)</label>
+            <input class="input-field" type="number" id="edit-entry-price" placeholder="0.32" step="0.01">
+          </div>
+          <div class="input-group">
+            <label class="input-label">Contracts</label>
+            <input class="input-field" type="number" id="edit-contracts" placeholder="10" min="1">
+          </div>
+        </div>
+        <div class="input-row">
+          <div class="input-group">
+            <label class="input-label">Strike Price ($)</label>
+            <input class="input-field" type="number" id="edit-strike" placeholder="207" step="0.5">
+          </div>
+          <div class="input-group">
+            <label class="input-label">Expiration Date</label>
+            <input class="input-field" type="date" id="edit-expiry">
+          </div>
+        </div>
+      </div>
+      <div class="input-group">
+        <label class="input-label">Setup Checklist</label>
+        <div id="edit-checklist" style="display:flex;flex-direction:column;gap:6px;margin-top:4px;"></div>
+      </div>
+      <div class="input-group">
+        <label class="input-label">Notes</label>
+        <textarea class="notes-area input-field" id="edit-notes" placeholder="Your notes on this trade..." rows="3"></textarea>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="modal-btn cancel" onclick="closeModal('modal-edit')">Cancel</button>
+      <button class="modal-btn primary" onclick="saveEdit()">Save Changes</button>
+    </div>
+  </div>
+</div>
 <div class="modal-overlay" id="modal-spy">
   <div class="modal">
     <div class="modal-handle"></div>
@@ -1062,6 +1129,7 @@ function renderActiveCard(t) {
         <textarea class="notes-area" placeholder="Log your observations..." onchange="updateNotes('${t.id}',this.value)">${t.notes||''}</textarea>
       </div>
       <div class="card-actions">
+        <button class="btn-action" onclick="openEditModal('${t.id}')">Edit</button>
         <button class="btn-action success" onclick="openCloseModal('${t.id}','trim')">Trim 20%</button>
         <button class="btn-action danger" onclick="openCloseModal('${t.id}','close')">Close Trade</button>
       </div>
@@ -1096,17 +1164,16 @@ function renderTradeCard(t) {
   if(t.price && t.adr) {
     const dayOfWeek = new Date().getDay()||5;
     const hold = calcHoldDays(dayOfWeek);
-    const expectedPct = (t.adr * hold).toFixed(1);
-    const expectedUSD = (t.price * t.adr/100 * hold).toFixed(2);
+    const expectedPct = (t.adr * 3).toFixed(1);
+    const expectedUSD = (t.adr * 3).toFixed(2);
     const strike = Math.ceil(t.price + parseFloat(expectedUSD));
     const expiry = getNextFriday(hold>5?1:0);
     optionsHtml = `<div class="options-calc">
       <div class="calc-title">Options Estimate</div>
       <div class="calc-grid">
         <div class="calc-item"><div class="calc-label">Stock Price</div><div class="calc-value">$${t.price}</div></div>
-        <div class="calc-item"><div class="calc-label">ADR</div><div class="calc-value gold">${t.adr}%</div></div>
-        <div class="calc-item"><div class="calc-label">Hold Days</div><div class="calc-value">${hold}</div></div>
-        <div class="calc-item"><div class="calc-label">Expected Move</div><div class="calc-value profit">+${expectedPct}%</div></div>
+        <div class="calc-item"><div class="calc-label">ADR × 3</div><div class="calc-value gold">+${expectedPct}%</div></div>
+        <div class="calc-item"><div class="calc-label">Expected $</div><div class="calc-value profit">+$${expectedUSD}</div></div>
         <div class="calc-item"><div class="calc-label">Strike ~</div><div class="calc-value green">$${strike}</div></div>
         <div class="calc-item"><div class="calc-label">Expiry ~</div><div class="calc-value">${formatDate(expiry)}</div></div>
       </div>
@@ -1143,7 +1210,7 @@ function renderTradeCard(t) {
         ${t.stage==='watch'?`<button class="btn-action primary" onclick="advanceStage('${t.id}','setup')">→ Setting Up</button>`:''}
         ${t.stage==='setup'?`<button class="btn-action primary" onclick="advanceStage('${t.id}','ready')">→ Ready to Enter</button>`:''}
         ${t.stage==='ready'?`<button class="btn-action primary" onclick="openEnterModal('${t.id}')">▶ Enter Trade</button>`:''}
-        <button class="btn-action" onclick="editChecklist('${t.id}')">Edit Checklist</button>
+        <button class="btn-action" onclick="editChecklist('${t.id}')">✎ Edit</button>
         <button class="btn-action danger" onclick="removeTrade('${t.id}')">Remove</button>
       </div>
     </div>
@@ -1407,11 +1474,84 @@ function toggleExitCheck(id, key) {
 }
 
 function editChecklist(id) {
-  // Simple inline checklist update
+  openEditModal(id);
+}
+
+function openEditModal(id) {
   const t = trades.find(x=>x.id===id);
   if(!t) return;
-  // For now, open a basic prompt flow
-  alert('To update your setup checklist, remove and re-add this ticker with updated checks. Full checklist editor coming in v2.');
+  currentModalTrade = id;
+
+  document.getElementById('edit-modal-title').textContent = `Edit — ${t.ticker}`;
+  document.getElementById('edit-ticker').value = t.ticker||'';
+  document.getElementById('edit-stage').value = t.stage||'watch';
+  document.getElementById('edit-price').value = t.price||'';
+  document.getElementById('edit-adr').value = t.adr||'';
+  document.getElementById('edit-notes').value = t.notes||'';
+
+  // Show active fields if applicable
+  const activeFields = document.getElementById('edit-active-fields');
+  if(t.stage==='active') {
+    activeFields.style.display='block';
+    document.getElementById('edit-entry-price').value = t.entryPrice||'';
+    document.getElementById('edit-contracts').value = t.contracts||'';
+    document.getElementById('edit-strike').value = t.strike||'';
+    document.getElementById('edit-expiry').value = t.expiry||'';
+  } else {
+    activeFields.style.display='none';
+  }
+
+  // Toggle active fields on stage change
+  document.getElementById('edit-stage').onchange = function() {
+    activeFields.style.display = this.value==='active'?'block':'none';
+  };
+
+  // Build edit checklist
+  const checks = t.checks||{};
+  const editChecklistEl = document.getElementById('edit-checklist');
+  editChecklistEl.innerHTML = CHECKLIST_ITEMS.map(item=>`
+    <div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--border);">
+      <span style="font-size:0.58rem;color:var(--muted2);flex:1;line-height:1.4;">${item.label}</span>
+      <select style="background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:4px 6px;font-family:'DM Mono',monospace;font-size:0.55rem;color:var(--ink);outline:none;" data-check="${item.key}">
+        <option value="">—</option>
+        <option value="yes" ${checks[item.key]==='yes'?'selected':''}>✓ Yes</option>
+        <option value="partial" ${checks[item.key]==='partial'?'selected':''}>~ Partial</option>
+        <option value="no" ${checks[item.key]==='no'?'selected':''}>✗ No</option>
+      </select>
+    </div>
+  `).join('');
+
+  openModal('modal-edit');
+}
+
+function saveEdit() {
+  const t = trades.find(x=>x.id===currentModalTrade);
+  if(!t) return;
+
+  t.ticker = document.getElementById('edit-ticker').value.trim().toUpperCase()||t.ticker;
+  t.stage = document.getElementById('edit-stage').value;
+  t.price = parseFloat(document.getElementById('edit-price').value)||null;
+  t.adr = parseFloat(document.getElementById('edit-adr').value)||null;
+  t.notes = document.getElementById('edit-notes').value;
+
+  // Active fields
+  if(t.stage==='active') {
+    t.entryPrice = parseFloat(document.getElementById('edit-entry-price').value)||t.entryPrice||null;
+    t.contracts = parseInt(document.getElementById('edit-contracts').value)||t.contracts||1;
+    t.strike = parseFloat(document.getElementById('edit-strike').value)||t.strike||null;
+    t.expiry = document.getElementById('edit-expiry').value||t.expiry||null;
+  }
+
+  // Save checklist
+  const checks = {};
+  document.querySelectorAll('#edit-checklist [data-check]').forEach(sel=>{
+    checks[sel.dataset.check] = sel.value||'no';
+  });
+  t.checks = checks;
+
+  saveTrades();
+  renderAll();
+  closeModal('modal-edit');
 }
 
 function attachCardEvents() {
@@ -1444,8 +1584,8 @@ function runCalc() {
   }
 
   const holdDays = calcHoldDays(day);
-  const expectedPct = adr * holdDays;
-  const expectedUSD = price * (expectedPct/100);
+  const expectedPct = adr * 3;
+  const expectedUSD = adr * 3;
   const strike = Math.ceil(price + expectedUSD);
   const expiry = getNextFriday(holdDays>5?1:0);
   const totalCost = contractPrice * contracts * 100;
@@ -1454,8 +1594,8 @@ function runCalc() {
   const trimAt20 = Math.ceil(contracts*0.2);
 
   document.getElementById('calc-results').innerHTML = `
-    <div class="result-row"><div class="result-label">Hold Days</div><div class="result-value">${holdDays} trading days</div></div>
-    <div class="result-row"><div class="result-label">Expected Move</div><div class="result-value profit">+${expectedPct.toFixed(1)}% (+$${expectedUSD.toFixed(2)})</div></div>
+    <div class="result-row"><div class="result-label">Formula</div><div class="result-value" style="font-size:0.6rem;">$${price} + (${adr}% × 3)</div></div>
+    <div class="result-row"><div class="result-label">ADR × 3</div><div class="result-value profit">+${expectedPct.toFixed(2)}% (+$${expectedUSD.toFixed(2)})</div></div>
     <div class="result-row"><div class="result-label">Strike Price</div><div class="result-value gold">$${strike} CALL</div></div>
     <div class="result-row"><div class="result-label">Expiration</div><div class="result-value">${formatDate(expiry)}</div></div>
     ${contractPrice?`<div class="result-row"><div class="result-label">Total Cost</div><div class="result-value">$${totalCost.toFixed(0)}</div></div>`:''}
